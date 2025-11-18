@@ -11,17 +11,28 @@ use App\Http\Controllers\appointment\AppointmentController;
 use App\Http\Controllers\register\RegisterController;
 use App\Http\Controllers\pdf\PdfController;
 use App\Http\Controllers\PublicFileController;
+use Illuminate\Support\Facades\Log;
 
 // Fallback route to serve storage files directly (for Railway compatibility)
-Route::get('/storage/{path}', function ($path) {
+Route::get('storage/{path}', function ($path) {
     $file = storage_path('app/public/' . $path);
     
+    Log::info('Storage route accessed', [
+        'path' => $path,
+        'file' => $file,
+        'exists' => file_exists($file)
+    ]);
+    
     if (!file_exists($file)) {
-        abort(404);
+        abort(404, 'File not found: ' . $path);
     }
     
-    return response()->file($file);
-})->where('path', '.*');
+    $mimeType = mime_content_type($file);
+    return response()->file($file, [
+        'Content-Type' => $mimeType,
+        'Cache-Control' => 'public, max-age=31536000',
+    ]);
+})->where('path', '.*')->name('storage.serve');
 
 Route::get('/', [LoginController::class, 'login'])->name('login');
 Route::post('/authenticate', [LoginController::class, 'authenticate'])->name('authenticate');
