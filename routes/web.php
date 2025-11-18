@@ -13,27 +13,6 @@ use App\Http\Controllers\pdf\PdfController;
 use App\Http\Controllers\PublicFileController;
 use Illuminate\Support\Facades\Log;
 
-// Fallback route to serve storage files directly (for Railway compatibility)
-Route::get('storage/{path}', function ($path) {
-    $file = storage_path('app/public/' . $path);
-    
-    Log::info('Storage route accessed', [
-        'path' => $path,
-        'file' => $file,
-        'exists' => file_exists($file)
-    ]);
-    
-    if (!file_exists($file)) {
-        abort(404, 'File not found: ' . $path);
-    }
-    
-    $mimeType = mime_content_type($file);
-    return response()->file($file, [
-        'Content-Type' => $mimeType,
-        'Cache-Control' => 'public, max-age=31536000',
-    ]);
-})->where('path', '.*')->name('storage.serve');
-
 Route::get('/', [LoginController::class, 'login'])->name('login');
 Route::post('/authenticate', [LoginController::class, 'authenticate'])->name('authenticate');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -206,6 +185,11 @@ Route::get('/partylist/{id}', [PartylistController::class, 'show'])->name('party
 Route::get('/stsg-admin-notifications', function() {
     return view('livewire.stsg-admin-notification.stsg-admin-notification');
 })->name('stsg-admin-notifications');
+
+// Storage file serving route (for Railway - must come before catch-all route)
+Route::get('storage/{path}', [PublicFileController::class, 'show'])
+    ->where('path', '.*')
+    ->name('storage.serve');
 
 // Catch-all route for single-file view resolution (kept as fallback)
 Route::get("{any}", [RouteController::class, 'routes']);
