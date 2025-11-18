@@ -98,7 +98,7 @@
                                         
                                         // Check profile_image field first (profile_pictures folder)
                                         if ($student->profile_image) {
-                                            if (file_exists(public_path('storage/' . $student->profile_image))) {
+                                            if (\Illuminate\Support\Facades\Storage::disk('public')->exists($student->profile_image)) {
                                                 $imageSrc = asset('storage/' . $student->profile_image);
                                             }
                                         }

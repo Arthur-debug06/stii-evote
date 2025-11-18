@@ -98,7 +98,7 @@
                                         
                                         // Check profile_image field first (profile_pictures folder)
                                         if ($admin->profile_image) {
-                                            if (file_exists(public_path('storage/' . $admin->profile_image))) {
+                                            if (\Illuminate\Support\Facades\Storage::disk('public')->exists($admin->profile_image)) {
                                                 $imageSrc = asset('storage/' . $admin->profile_image);
                                             }
                                         }
