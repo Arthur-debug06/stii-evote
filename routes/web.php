@@ -1,10 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PageController;
-use App\Http\Controllers\ThemeController;
-use App\Http\Controllers\LayoutController;
-use App\Http\Controllers\Login\LoginController;
+use App\Http\Controllers\login\LoginController;
 use App\Http\Controllers\RouteController;
 use App\Http\Controllers\PartylistController;
 use App\Livewire\Dashboard\Dashboard as DashboardComponent;
