@@ -9,19 +9,8 @@
                 <div class="relative z-10 hidden h-[65px] w-[275px] flex-none items-center overflow-hidden px-6 duration-200 xl:flex group-[.side-menu--collapsed.side-menu--on-hover]:xl:w-[275px] group-[.side-menu--collapsed]:xl:w-[110px]">
                     <a class="flex items-center transition-[margin] duration-200 xl:ml-2 group-[.side-menu--collapsed.side-menu--on-hover]:xl:ml-2 group-[.side-menu--collapsed]:xl:ml-6" href="">
                         @php
-                            $sidebarLogo = \App\Models\system_settings::where('key', 'sidebar_logo')
-                                ->where('type', 'image')
-                                ->where('status', 'active')
-                                ->first();
-                            // Support both base64 data URIs and file paths
-                            if ($sidebarLogo && str_starts_with($sidebarLogo->value, 'data:')) {
-                                $logoPath = $sidebarLogo->value; // Base64 data URI
-                            } elseif ($sidebarLogo) {
-                                $logoPath = asset('storage/' . $sidebarLogo->value); // File path
-                            } else {
-                                $logoPath = asset('assets/dist/images/logo.svg'); // Default
-                            }
-                        @endphp
+                        $logoPath = 'http://127.0.0.1:8000/storage/system_settings/1757310054_958f3106-933e-45f6-94d4-16494684712d-modified.png';
+                    @endphp
 
 <img class="size-12" src="{{ $logoPath }}" alt="Sidebar Logo">
 
@@ -911,7 +900,7 @@
                             @endphp
                             @if($currentUser)
                                 @if($currentUser->profile_image)
-                                    <img class="absolute top-0 h-full w-full object-cover" src="{{ asset('storage/' . $currentUser->profile_image) }}" alt="User Profile">
+                                    <img class="absolute top-0 h-full w-full object-cover" src="{{ \Illuminate\Support\Facades\Storage::url($currentUser->profile_image) }}" alt="User Profile">
                                 @else
                                     <div class="absolute top-0 h-full w-full flex items-center justify-center bg-gray-200 text-gray-600 text-sm font-bold">
                                         @if($currentUser instanceof \App\Models\students)

@@ -99,7 +99,7 @@
                                         // Check profile_image field first (profile_pictures folder)
                                         if ($admin->profile_image) {
                                             if (\Illuminate\Support\Facades\Storage::disk('public')->exists($admin->profile_image)) {
-                                                $imageSrc = asset('storage/' . $admin->profile_image);
+                                                $imageSrc = \Illuminate\Support\Facades\Storage::url($admin->profile_image);
                                             }
                                         }
                                         
@@ -113,7 +113,7 @@
                                             
                                             if (!empty($profileFiles)) {
                                                 $profileFile = basename($profileFiles[0]);
-                                                $imageSrc = asset('storage/admin_images/' . $profileFile);
+                                                $imageSrc = \Illuminate\Support\Facades\Storage::url('admin_images/' . $profileFile);
                                             } else {
                                                 // Look for ID images as fallback
                                                 $idPattern = $adminImagesPath . '*_id_*' . $admin->id . '*';
@@ -121,7 +121,7 @@
                                                 
                                                 if (!empty($idFiles)) {
                                                     $idFile = basename($idFiles[0]);
-                                                    $imageSrc = asset('storage/admin_images/' . $idFile);
+                                                    $imageSrc = \Illuminate\Support\Facades\Storage::url('admin_images/' . $idFile);
                                                 }
                                             }
                                         }

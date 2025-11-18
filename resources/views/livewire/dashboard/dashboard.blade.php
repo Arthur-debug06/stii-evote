@@ -163,7 +163,7 @@
                                     <div class="flex items-center gap-4">
                                         <div class="w-12 h-12 flex-none">
                                             @if($partylist->partylist_image)
-                                                <img src="{{ asset('storage/' . $partylist->partylist_image) }}" alt="{{ $partylist->partylist_name }}" class="w-12 h-12 rounded-full object-cover">
+                                                <img src="{{ \Illuminate\Support\Facades\Storage::url($partylist->partylist_image) }}" alt="{{ $partylist->partylist_name }}" class="w-12 h-12 rounded-full object-cover">
                                             @else
                                                 <div class="w-12 h-12 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 font-semibold">{{ strtoupper(substr($partylist->partylist_name, 0, 2)) }}</div>
                                             @endif
@@ -327,7 +327,7 @@
                                                 
                                                 if (!empty($profileFiles)) {
                                                     $profileFile = basename($profileFiles[0]);
-                                                    $imageSrc = asset('storage/student_images/' . $profileFile);
+                                                    $imageSrc = \Illuminate\Support\Facades\Storage::url('student_images/' . $profileFile);
                                                 } else {
                                                     // Look for ID images as fallback
                                                     $idPattern = $studentImagesPath . '*_id_*' . $transaction->student->id . '*';
@@ -335,7 +335,7 @@
                                                     
                                                     if (!empty($idFiles)) {
                                                         $idFile = basename($idFiles[0]);
-                                                        $imageSrc = asset('storage/student_images/' . $idFile);
+                                                        $imageSrc = \Illuminate\Support\Facades\Storage::url('student_images/' . $idFile);
                                                     }
                                                 }
                                             }
@@ -499,7 +499,7 @@
                                             // Check profile_image field first (profile_pictures folder)
                                             if ($transaction->student && $transaction->student->profile_image) {
                                                 if (file_exists(public_path('storage/' . $transaction->student->profile_image))) {
-                                                    $imageSrc = asset('storage/' . $transaction->student->profile_image);
+                                                    $imageSrc = \Illuminate\Support\Facades\Storage::url($transaction->student->profile_image);
                                                 }
                                             }
                                             

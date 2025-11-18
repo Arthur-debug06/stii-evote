@@ -504,7 +504,7 @@
                         <label class="block text-sm mb-1" for="edit-profile-image">Profile Image</label>
                             @if($temp_profile_image)
                                 <div class="mb-2">
-                                    <img src="{{ asset('storage/' . $temp_profile_image) }}" alt="Current Profile" class="w-16 h-16 rounded-full object-cover">
+                                    <img src="{{ \Illuminate\Support\Facades\Storage::url($temp_profile_image) }}" alt="Current Profile" class="w-16 h-16 rounded-full object-cover">
                                     <p class="text-xs text-gray-500 mt-1">Current profile image</p>
                                 </div>
                             @endif
@@ -521,7 +521,7 @@
                         <label class="block text-sm mb-1" for="edit-student-id-image">Student ID Image</label>
                         @if($temp_student_id_image)
                             <div class="mb-2">
-                                <img src="{{ asset('storage/' . $temp_student_id_image) }}" alt="Current Student ID" class="w-16 h-16 rounded object-cover">
+                                <img src="{{ \Illuminate\Support\Facades\Storage::url($temp_student_id_image) }}" alt="Current Student ID" class="w-16 h-16 rounded object-cover">
                                 <p class="text-xs text-gray-500 mt-1">Current student ID image</p>
                         </div>
                         @endif
@@ -583,7 +583,7 @@
                             <td class="shadow-[3px_3px_5px_#0000000b] first:rounded-l-xl last:rounded-r-xl box rounded-none p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 border-y border-foreground/10 bg-background first:border-l last:border-r">
                                 <div class="flex items-center">
                                     @if($item->profile_image)
-                                        <img src="{{ asset('storage/' . $item->profile_image) }}" alt="Profile" class="w-10 h-10 rounded-full object-cover">
+                                        <img src="{{ \Illuminate\Support\Facades\Storage::url($item->profile_image) }}" alt="Profile" class="w-10 h-10 rounded-full object-cover">
                                     @else
                                         <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
                                             <svg class="w-6 h-6 text-gray-600" fill="currentColor" viewBox="0 0 20 20">

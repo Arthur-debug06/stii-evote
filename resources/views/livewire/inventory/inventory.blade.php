@@ -306,7 +306,7 @@
                         <tr class="transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted border-b-0">
                             <td class="shadow-[3px_3px_5px_#0000000b] first:rounded-l-xl last:rounded-r-xl box rounded-none p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 border-y border-foreground/10 bg-background first:border-l last:border-r">
                                 @if($item->image)
-                                    <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->item_name }}" class="w-16 h-16 object-cover rounded-lg">
+                                    <img src="{{ \Illuminate\Support\Facades\Storage::url($item->image) }}" alt="{{ $item->item_name }}" class="w-16 h-16 object-cover rounded-lg">
                                 @else
                                     <div class="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 text-gray-400">

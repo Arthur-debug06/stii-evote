@@ -99,7 +99,7 @@
                                         // Check profile_image field first (profile_pictures folder)
                                         if ($student->profile_image) {
                                             if (\Illuminate\Support\Facades\Storage::disk('public')->exists($student->profile_image)) {
-                                                $imageSrc = asset('storage/' . $student->profile_image);
+                                                $imageSrc = \Illuminate\Support\Facades\Storage::url($student->profile_image);
                                             }
                                         }
                                         
@@ -113,7 +113,7 @@
                                             
                                             if (!empty($profileFiles)) {
                                                 $profileFile = basename($profileFiles[0]);
-                                                $imageSrc = asset('storage/student_images/' . $profileFile);
+                                                $imageSrc = \Illuminate\Support\Facades\Storage::url('student_images/' . $profileFile);
                                             } else {
                                                 // Look for ID images as fallback
                                                 $idPattern = $studentImagesPath . '*_id_*' . $student->id . '*';
@@ -121,7 +121,7 @@
                                                 
                                                 if (!empty($idFiles)) {
                                                     $idFile = basename($idFiles[0]);
-                                                    $imageSrc = asset('storage/student_images/' . $idFile);
+                                                    $imageSrc = \Illuminate\Support\Facades\Storage::url('student_images/' . $idFile);
                                                 }
                                             }
                                         }

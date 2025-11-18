@@ -44,7 +44,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                     ->where('module_id', 6)
                                     ->where('status', 'active')
                                     ->first();
-                                $topLogoPath = $loginTopLogo ? asset('storage/' . $loginTopLogo->value) : asset('assets/dist/images/logo.svg');
+                                $topLogoPath = $loginTopLogo ? \Illuminate\Support\Facades\Storage::url($loginTopLogo->value) : asset('assets/dist/images/logo.svg');
                             @endphp
                             <img class="w-6" src="{{ $topLogoPath }}" alt="Login Logo">
                             @php
@@ -66,7 +66,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                     ->where('module_id', 3)
                                     ->where('status', 'active')
                                     ->first();
-                                $centerLogoPath = $loginCenterLogo ? asset('storage/' . $loginCenterLogo->value) : asset('assets/dist/images/illustration.svg');
+                                $centerLogoPath = $loginCenterLogo ? \Illuminate\Support\Facades\Storage::url($loginCenterLogo->value) : asset('assets/dist/images/illustration.svg');
                             @endphp
                             <img class="-mt-16 w-1/2" src="{{ $centerLogoPath }}" alt="Login Illustration">
                             @php
