@@ -12,6 +12,17 @@ use App\Http\Controllers\register\RegisterController;
 use App\Http\Controllers\pdf\PdfController;
 use App\Http\Controllers\PublicFileController;
 
+// Fallback route to serve storage files directly (for Railway compatibility)
+Route::get('/storage/{path}', function ($path) {
+    $file = storage_path('app/public/' . $path);
+    
+    if (!file_exists($file)) {
+        abort(404);
+    }
+    
+    return response()->file($file);
+})->where('path', '.*');
+
 Route::get('/', [LoginController::class, 'login'])->name('login');
 Route::post('/authenticate', [LoginController::class, 'authenticate'])->name('authenticate');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
