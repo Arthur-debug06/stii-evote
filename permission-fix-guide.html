@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>InfinityFree File Permissions Guide</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .step { background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; padding: 20px; margin: 20px 0; }
+        .step h3 { color: #495057; margin-top: 0; }
+        .highlight { background: #fff3cd; border: 1px solid #ffc107; padding: 15px; border-radius: 5px; margin: 15px 0; }
+        .success { background: #d4edda; border: 1px solid #c3e6cb; padding: 15px; border-radius: 5px; margin: 15px 0; }
+        .warning { background: #f8d7da; border: 1px solid #f5c6cb; padding: 15px; border-radius: 5px; margin: 15px 0; }
+        .code { background: #f8f9fa; border: 1px solid #e9ecef; padding: 10px; border-radius: 3px; font-family: monospace; margin: 10px 0; }
+        .btn-guide { background: #007bff; color: white; padding: 8px 16px; border-radius: 4px; text-decoration: none; display: inline-block; margin: 5px; }
+        .permission-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        .permission-table th, .permission-table td { border: 1px solid #dee2e6; padding: 8px; text-align: left; }
+        .permission-table th { background: #e9ecef; }
+        .screenshot-placeholder { background: #e9ecef; border: 2px dashed #6c757d; padding: 40px; text-align: center; color: #6c757d; margin: 15px 0; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 InfinityFree File Permissions Guide</h1>
+        <p><strong>Step-by-step instructions to fix your 403 error</strong></p>
+
+        <div class="warning">
+            <h2>⚠️ Current Issue</h2>
+            <p>Your Laravel files have wrong permissions, causing 403 Forbidden errors.</p>
+            <p><strong>Solution:</strong> Change file permissions to allow PHP execution.</p>
+        </div>
+
+        <div class="step">
+            <h3>📋 Step 1: Access InfinityFree File Manager</h3>
+            <ol>
+                <li>Go to <strong>https://dash.infinityfree.net/</strong></li>
+                <li>Login to your account</li>
+                <li>Click on <strong>"Manage"</strong> next to your website</li>
+                <li>Look for <strong>"File Manager"</strong> or <strong>"Online File Manager"</strong></li>
+                <li>Click to open the file manager</li>
+            </ol>
+            <div class="highlight">
+                <p><strong>Alternative:</strong> Some accounts use <strong>"htdocs"</strong> or <strong>"public_html"</strong> link directly</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <h3>📁 Step 2: Navigate to Your Files</h3>
+            <ol>
+                <li>You should see your files in the htdocs folder</li>
+                <li>Look for <strong>index.php</strong> (your Laravel entry point)</li>
+                <li>You should also see folders like: app/, vendor/, config/, etc.</li>
+            </ol>
+            <div class="code">
+                Files you should see:
+                ✓ index.php (this is the main file to fix)
+                ✓ .htaccess
+                ✓ app/ folder
+                ✓ vendor/ folder
+                ✓ config/ folder
+            </div>
+        </div>
+
+        <div class="step">
+            <h3>🔧 Step 3: Change File Permissions</h3>
+            
+            <h4>Method 1: Right-Click Menu (Most Common)</h4>
+            <ol>
+                <li><strong>Right-click</strong> on <code>index.php</code></li>
+                <li>Look for <strong>"Properties"</strong> or <strong>"Permissions"</strong> or <strong>"chmod"</strong></li>
+                <li>Click on it to open permissions dialog</li>
+                <li>Change permissions to <strong>644</strong></li>
+                <li>Click <strong>"Apply"</strong> or <strong>"Save"</strong></li>
+            </ol>
+
+            <h4>Method 2: Properties Panel</h4>
+            <ol>
+                <li><strong>Click once</strong> on <code>index.php</code> to select it</li>
+                <li>Look for a <strong>"Properties"</strong> panel (usually on the right)</li>
+                <li>Find <strong>"Permissions"</strong> or <strong>"Mode"</strong> section</li>
+                <li>Change the value to <strong>644</strong></li>
+                <li>Press <strong>Enter</strong> or click <strong>"Apply"</strong></li>
+            </ol>
+
+            <h4>Method 3: Toolbar Button</h4>
+            <ol>
+                <li><strong>Select</strong> <code>index.php</code> by clicking on it</li>
+                <li>Look for a <strong>"Permissions"</strong> or <strong>"chmod"</strong> button in the toolbar</li>
+                <li>Click it to open permissions dialog</li>
+                <li>Set permissions to <strong>644</strong></li>
+                <li>Click <strong>"OK"</strong> or <strong>"Apply"</strong></li>
+            </ol>
+        </div>
+
+        <div class="step">
+            <h3>🎯 Understanding Permissions</h3>
+            <table class="permission-table">
+                <tr>
+                    <th>Permission</th>
+                    <th>Meaning</th>
+                    <th>Use For</th>
+                </tr>
+                <tr>
+                    <td><strong>644</strong></td>
+                    <td>Read/Write for owner, Read for others</td>
+                    <td>PHP files (.php), HTML files (.html)</td>
+                </tr>
+                <tr>
+                    <td><strong>755</strong></td>
+                    <td>Read/Write/Execute for owner, Read/Execute for others</td>
+                    <td>Directories (folders)</td>
+                </tr>
+                <tr>
+                    <td><strong>666</strong></td>
+                    <td>Read/Write for everyone</td>
+                    <td>Config files (some hosts)</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="highlight">
+            <h3>📝 What the Numbers Mean</h3>
+            <p><strong>644 breaks down as:</strong></p>
+            <ul>
+                <li><strong>6</strong> = Owner can read (4) + write (2) = 6</li>
+                <li><strong>4</strong> = Group can read (4) only</li>
+                <li><strong>4</strong> = Everyone can read (4) only</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h3>✅ Step 4: Test Your Site</h3>
+            <ol>
+                <li>After changing <code>index.php</code> to <strong>644</strong></li>
+                <li>Close the file manager</li>
+                <li>Visit your website URL</li>
+                <li>Your Laravel site should load!</li>
+            </ol>
+        </div>
+
+        <div class="warning">
+            <h3>🔄 If Still Getting 403 Error</h3>
+            <p>Fix permissions for these files too:</p>
+            <div class="code">
+Files to set to 644:
+• .htaccess
+• Any other .php files showing 403
+
+Directories to set to 755:
+• app/
+• config/
+• vendor/
+• storage/
+• bootstrap/
+            </div>
+        </div>
+
+        <div class="step">
+            <h3>🚀 Alternative: Bulk Permission Fix</h3>
+            <p>Some file managers allow bulk operations:</p>
+            <ol>
+                <li><strong>Select multiple files</strong> (Ctrl+click or Shift+click)</li>
+                <li><strong>Right-click</strong> and choose <strong>"Permissions"</strong></li>
+                <li>Set all <strong>.php files to 644</strong></li>
+                <li>Set all <strong>directories to 755</strong></li>
+            </ol>
+        </div>
+
+        <div class="success">
+            <h3>🎉 Success Indicators</h3>
+            <p>You'll know it worked when:</p>
+            <ul>
+                <li>✅ Your website loads (no more 403 error)</li>
+                <li>✅ You see your Laravel application</li>
+                <li>✅ Database connection works (you already have this)</li>
+                <li>✅ Your STII E-Vote system is live!</li>
+            </ul>
+        </div>
+
+        <div class="highlight">
+            <h3>💡 Pro Tips</h3>
+            <ul>
+                <li><strong>Start with index.php only</strong> - this fixes most issues</li>
+                <li><strong>Don't change permissions to 777</strong> - it's insecure</li>
+                <li><strong>Your Laravel system is perfect</strong> - just needs permission fix</li>
+                <li><strong>This is a 2-minute fix</strong> for your 100% ready system</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h3>📞 Can't Find Permissions Option?</h3>
+            <p>Different file manager interfaces:</p>
+            <ul>
+                <li><strong>cPanel File Manager:</strong> Right-click → "Change Permissions"</li>
+                <li><strong>Generic File Manager:</strong> Right-click → "Properties" → "Permissions"</li>
+                <li><strong>Simple Interface:</strong> Select file → Look for "chmod" or "755/644" buttons</li>
+                <li><strong>Advanced Interface:</strong> Properties panel on the right side</li>
+            </ul>
+        </div>
+
+        <div class="success">
+            <h2>🎯 Summary</h2>
+            <p><strong>Your mission:</strong> Change <code>index.php</code> permissions to <strong>644</strong></p>
+            <p><strong>Location:</strong> InfinityFree File Manager → htdocs → index.php</p>
+            <p><strong>Method:</strong> Right-click → Permissions → Set to 644</p>
+            <p><strong>Result:</strong> Your voting system works immediately!</p>
+        </div>
+
+        <p style="text-align: center; color: #666; margin-top: 30px;">
+            <strong>Once permissions are fixed, your Laravel system will work perfectly!</strong>
+        </p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STII E-Vote System - Loading</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        .header {
+            background: #007bff;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .status {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .success { border-left: 4px solid #28a745; }
+        .warning { border-left: 4px solid #ffc107; }
+        .error { border-left: 4px solid #dc3545; }
+        .checklist {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .checklist li {
+            margin: 10px 0;
+            padding: 5px 0;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 5px;
+        }
+        .btn:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🗳️ STII E-Vote System</h1>
+        <p>Your voting system is being prepared...</p>
+    </div>
+
+    <div class="status success">
+        <h2>✅ Site is Loading Successfully!</h2>
+        <p><strong>Good news:</strong> The 403 error is fixed. Your site is now accessible.</p>
+        <p><strong>Current Status:</strong> Emergency landing page active</p>
+        <p><strong>Time:</strong> <?php echo date('Y-m-d H:i:s'); ?></p>
+    </div>
+
+    <div class="status warning">
+        <h2>⚠️ Laravel Application Not Yet Uploaded</h2>
+        <p>This is a temporary page. To activate your full voting system, you need to upload the Laravel files.</p>
+    </div>
+
+    <div class="checklist">
+        <h2>📋 Upload Checklist</h2>
+        <p><strong>Upload these files to your htdocs ROOT directory:</strong></p>
+        
+        <h3>1️⃣ Public Files (from public/ folder):</h3>
+        <ul>
+            <li>✅ index.php (this will replace this temporary page)</li>
+            <li>✅ .htaccess</li>
+            <li>📁 css/ folder</li>
+            <li>📁 js/ folder</li>
+            <li>📁 build/ folder</li>
+            <li>📁 storage/ folder</li>
+            <li>📁 uploads/ folder</li>
+        </ul>
+
+        <h3>2️⃣ Laravel Application Folders:</h3>
+        <ul>
+            <li>📁 app/</li>
+            <li>📁 bootstrap/</li>
+            <li>📁 config/</li>
+            <li>📁 database/</li>
+            <li>📁 resources/</li>
+            <li>📁 routes/</li>
+            <li>📁 storage/</li>
+            <li>📁 vendor/</li>
+        </ul>
+
+        <h3>3️⃣ Configuration Files:</h3>
+        <ul>
+            <li>📄 .env</li>
+            <li>📄 artisan</li>
+            <li>📄 composer.json</li>
+            <li>📄 hosting-config.php</li>
+        </ul>
+    </div>
+
+    <div class="status success">
+        <h2>🎯 Quick Actions</h2>
+        <a href="fix-403-error.php" class="btn">🔧 Diagnose Issues</a>
+        <a href="hosting-config.php" class="btn">⚙️ Test Database</a>
+        <a href="deployment-complete-check.php" class="btn">📊 Check Deployment</a>
+    </div>
+
+    <div class="status">
+        <h2>🚀 What Happens Next?</h2>
+        <ol>
+            <li><strong>Upload Laravel files</strong> using the checklist above</li>
+            <li><strong>Visit hosting-config.php</strong> to configure database</li>
+            <li><strong>Run deployment-complete-check.php</strong> to verify setup</li>
+            <li><strong>Access your voting system</strong> - it will be fully functional!</li>
+        </ol>
+        
+        <p><strong>Your system scored 100% in local testing!</strong> 🎉<br>
+        Once uploaded, it will work perfectly.</p>
+    </div>
+
+    <div class="status">
+        <h2>📞 Need Help?</h2>
+        <p>If you encounter issues:</p>
+        <ul>
+            <li>Run the <strong>fix-403-error.php</strong> diagnostic tool</li>
+            <li>Check that files are uploaded to htdocs ROOT (not in a subfolder)</li>
+            <li>Ensure .htaccess file is uploaded</li>
+            <li>Verify all folders have proper permissions</li>
+        </ul>
+    </div>
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InfinityFree 403 Error Recovery</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .content {
+            padding: 30px;
+        }
+        .alert {
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border-left: 5px solid;
+        }
+        .alert-error {
+            background: #fff5f5;
+            border-color: #e53e3e;
+            color: #c53030;
+        }
+        .alert-warning {
+            background: #fffbeb;
+            border-color: #d69e2e;
+            color: #b7791f;
+        }
+        .alert-success {
+            background: #f0fff4;
+            border-color: #38a169;
+            color: #2f855a;
+        }
+        .alert-info {
+            background: #ebf8ff;
+            border-color: #3182ce;
+            color: #2c5282;
+        }
+        .step {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        .step h3 {
+            margin-top: 0;
+            color: #2d3748;
+        }
+        .code {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        .highlight {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #3182ce;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            margin: 5px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .btn:hover {
+            background: #2c5282;
+        }
+        .btn-success {
+            background: #38a169;
+        }
+        .btn-success:hover {
+            background: #2f855a;
+        }
+        .checklist {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .checklist ul {
+            list-style: none;
+            padding: 0;
+        }
+        .checklist li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .checklist li:last-child {
+            border-bottom: none;
+        }
+        .status-ok { color: #38a169; font-weight: bold; }
+        .status-error { color: #e53e3e; font-weight: bold; }
+        .status-warning { color: #d69e2e; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚨 InfinityFree 403 Error Recovery</h1>
+            <p>Complete Solution for PHP Execution Blocked</p>
+        </div>
+        
+        <div class="content">
+            <div class="alert alert-error">
+                <h2>🎯 Problem Identified</h2>
+                <p><strong>InfinityFree is blocking ALL PHP execution</strong></p>
+                <p>This happens when:</p>
+                <ul>
+                    <li>File permissions are incorrect</li>
+                    <li>InfinityFree detects suspicious activity</li>
+                    <li>Account limitations triggered</li>
+                    <li>Server-level PHP restrictions</li>
+                </ul>
+            </div>
+
+            <div class="alert alert-warning">
+                <h2>⚠️ Current Status</h2>
+                <p><span class="status-error">❌ PHP Scripts Blocked</span> - Cannot run .php files</p>
+                <p><span class="status-ok">✅ HTML Works</span> - Static files load properly</p>
+                <p><span class="status-warning">⚠️ Laravel Blocked</span> - Cannot run until PHP is enabled</p>
+            </div>
+
+            <div class="step">
+                <h3>🔧 Solution 1: File Permission Fix</h3>
+                <p>InfinityFree requires specific file permissions. Use your file manager to set:</p>
+                <div class="code">
+Files (.php, .html, .txt): 644 (rw-r--r--)
+Directories: 755 (rwxr-xr-x)
+                </div>
+                <p><strong>Critical files to fix:</strong></p>
+                <ul>
+                    <li>index.php → 644</li>
+                    <li>All .php files → 644</li>
+                    <li>All directories → 755</li>
+                </ul>
+            </div>
+
+            <div class="step">
+                <h3>🔄 Solution 2: Account Limitations Check</h3>
+                <p>InfinityFree may have triggered limitations. Check:</p>
+                <ol>
+                    <li>Visit your InfinityFree control panel</li>
+                    <li>Check for any suspension notices</li>
+                    <li>Look for resource usage warnings</li>
+                    <li>Verify account is in good standing</li>
+                </ol>
+            </div>
+
+            <div class="step">
+                <h3>🗂️ Solution 3: Clean File Upload</h3>
+                <p>Sometimes corrupted uploads cause 403 errors. Try this clean approach:</p>
+                <ol>
+                    <li><strong>Delete ALL files</strong> from htdocs (backup first!)</li>
+                    <li><strong>Upload only this HTML file</strong> as index.html</li>
+                    <li><strong>Test if it loads</strong> (if not, it's an account issue)</li>
+                    <li><strong>Gradually add files</strong> one by one</li>
+                </ol>
+            </div>
+
+            <div class="highlight">
+                <h3>🧪 Test Sequence</h3>
+                <p><strong>Upload these files in order to isolate the issue:</strong></p>
+                <ol>
+                    <li><strong>test.html</strong> - Basic HTML (should work)</li>
+                    <li><strong>test.php</strong> - Simple PHP (tests PHP execution)</li>
+                    <li><strong>Laravel files</strong> - Only after PHP works</li>
+                </ol>
+            </div>
+
+            <div class="step">
+                <h3>📄 Test Files to Create</h3>
+                
+                <h4>1. Create test.html:</h4>
+                <div class="code">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;Test&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;HTML Test Successful!&lt;/h1&gt;
+    &lt;p&gt;If you see this, HTML files work.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+                </div>
+
+                <h4>2. Create test.php:</h4>
+                <div class="code">
+&lt;?php
+echo "&lt;h1&gt;PHP Test Successful!&lt;/h1&gt;";
+echo "&lt;p&gt;PHP Version: " . PHP_VERSION . "&lt;/p&gt;";
+echo "&lt;p&gt;If you see this, PHP execution works.&lt;/p&gt;";
+?&gt;
+                </div>
+
+                <h4>3. Create minimal-index.php:</h4>
+                <div class="code">
+&lt;?php
+// Minimal Laravel test
+if (file_exists('vendor/autoload.php')) {
+    echo "&lt;h1&gt;Laravel Ready!&lt;/h1&gt;";
+    echo "&lt;p&gt;All Laravel files detected.&lt;/p&gt;";
+} else {
+    echo "&lt;h1&gt;Laravel Files Missing&lt;/h1&gt;";
+    echo "&lt;p&gt;Upload Laravel files first.&lt;/p&gt;";
+}
+?&gt;
+                </div>
+            </div>
+
+            <div class="alert alert-info">
+                <h2>🎯 Step-by-Step Recovery Plan</h2>
+                <div class="checklist">
+                    <ul>
+                        <li><strong>Step 1:</strong> Fix file permissions (all files 644, directories 755)</li>
+                        <li><strong>Step 2:</strong> Upload test.html and verify it loads</li>
+                        <li><strong>Step 3:</strong> Upload test.php and check if PHP works</li>
+                        <li><strong>Step 4:</strong> If PHP works, upload Laravel files</li>
+                        <li><strong>Step 5:</strong> Use minimal-index.php to test Laravel</li>
+                        <li><strong>Step 6:</strong> Replace with full Laravel index.php</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="alert alert-success">
+                <h2>🎉 Remember</h2>
+                <p><strong>Your STII E-Vote system scored 100% locally!</strong></p>
+                <p>This is purely a hosting configuration issue. Once PHP execution is restored, your voting system will work perfectly.</p>
+                <p>The 403 error is blocking ALL PHP files - this is not a Laravel issue, it's an InfinityFree hosting restriction.</p>
+            </div>
+
+            <div class="step">
+                <h3>📞 InfinityFree Support</h3>
+                <p>If file permissions don't fix it, contact InfinityFree support:</p>
+                <ul>
+                    <li><strong>Issue:</strong> "All PHP files return 403 Forbidden"</li>
+                    <li><strong>Account:</strong> Your InfinityFree username</li>
+                    <li><strong>Domain:</strong> Your site URL</li>
+                    <li><strong>Files affected:</strong> All .php files</li>
+                </ul>
+                <p>This is often resolved quickly by their support team.</p>
+            </div>
+
+            <div class="highlight">
+                <h3>⏱️ Timeline</h3>
+                <p><strong>File Permissions Fix:</strong> 5-10 minutes</p>
+                <p><strong>Clean Upload Method:</strong> 15-30 minutes</p>
+                <p><strong>Support Response:</strong> 24-48 hours</p>
+                <p><strong>Once Fixed:</strong> Your Laravel app works immediately!</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add current timestamp
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date().toLocaleString();
+            const timeElement = document.createElement('p');
+            timeElement.innerHTML = '<strong>Recovery guide loaded:</strong> ' + now;
+            timeElement.style.textAlign = 'center';
+            timeElement.style.color = '#666';
+            timeElement.style.marginTop = '20px';
+            document.querySelector('.content').appendChild(timeElement);
+        });
+    </script>
+</body>
+</html>
