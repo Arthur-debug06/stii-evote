@@ -15,6 +15,78 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
 
+// Super simple test route
+Route::get('/debug/simple-test', function() {
+    return response()->json([
+        'status' => 'ok',
+        'php_version' => phpversion(),
+        'laravel_version' => app()->version(),
+        'environment' => app()->environment()
+    ]);
+});
+
+// Test database connection
+Route::get('/debug/db-test', function() {
+    try {
+        DB::connection()->getPdo();
+        $tables = DB::select('SHOW TABLES');
+        return response()->json([
+            'status' => 'ok',
+            'db_connected' => true,
+            'tables_count' => count($tables)
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+});
+
+// Test model loading
+Route::get('/debug/model-test', function() {
+    try {
+        $courses = \App\Models\Course::count();
+        $departments = \App\Models\Department::count();
+        return response()->json([
+            'status' => 'ok',
+            'courses' => $courses,
+            'departments' => $departments
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'error' => $e->getMessage(),
+            'trace' => $e->getTraceAsString()
+        ], 500);
+    }
+});
+
+// Test view compilation without rendering
+Route::get('/debug/view-test', function() {
+    try {
+        $viewPath = resource_path('views/register/register.blade.php');
+        $viewExists = file_exists($viewPath);
+        $manifestPath = public_path('build/manifest.json');
+        $manifestExists = file_exists($manifestPath);
+        
+        return response()->json([
+            'status' => 'ok',
+            'view_path' => $viewPath,
+            'view_exists' => $viewExists,
+            'manifest_path' => $manifestPath,
+            'manifest_exists' => $manifestExists,
+            'public_path' => public_path(),
+            'resource_path' => resource_path()
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+});
+
 // Debug route to check database tables
 Route::get('/debug/check-tables', function() {
     try {
