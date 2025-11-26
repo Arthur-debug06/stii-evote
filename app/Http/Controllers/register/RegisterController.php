@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Schema;
 
 class RegisterController extends Controller
 {
@@ -24,50 +25,65 @@ class RegisterController extends Controller
             $courses = Course::where('status', 'active')->orderBy('course_name')->get();
             $departments = Department::where('status', 'active')->orderBy('department_name')->get();
 
-            // Get system settings for logos and text with safe fallbacks
-            $loginTopLogo = \App\Models\system_settings::where('key', 'login_top_logo')
-                ->where('type', 'image')
-                ->where('module_id', 6)
-                ->where('status', 'active')
-                ->first();
-            
+            // Default values for branding
             $topLogoPath = asset('assets/dist/images/logo.svg');
-            if ($loginTopLogo && $loginTopLogo->value) {
-                try {
-                    $topLogoPath = Storage::url($loginTopLogo->value);
-                } catch (\Exception $e) {
-                    $topLogoPath = asset('assets/dist/images/logo.svg');
-                }
-            }
-
-            $loginTopText = \App\Models\system_settings::where('key', 'login_top_text')
-                ->where('type', 'text')
-                ->where('module_id', 4)
-                ->where('status', 'active')
-                ->first();
-            $topText = $loginTopText ? $loginTopText->value : 'stii-evote Student Portal';
-
-            $loginCenterLogo = \App\Models\system_settings::where('key', 'login_center_logo')
-                ->where('type', 'image')
-                ->where('module_id', 3)
-                ->where('status', 'active')
-                ->first();
-            
+            $topText = 'stii-evote Student Portal';
             $centerLogoPath = asset('assets/dist/images/illustration.svg');
-            if ($loginCenterLogo && $loginCenterLogo->value) {
-                try {
-                    $centerLogoPath = Storage::url($loginCenterLogo->value);
-                } catch (\Exception $e) {
-                    $centerLogoPath = asset('assets/dist/images/illustration.svg');
-                }
-            }
+            $centerText = 'stii-evote<br>Sign in to your account.';
 
-            $loginCenterText = \App\Models\system_settings::where('key', 'login_center_text')
-                ->where('type', 'text')
-                ->where('module_id', 5)
-                ->where('status', 'active')
-                ->first();
-            $centerText = $loginCenterText ? $loginCenterText->value : 'stii-evote<br>Sign in to your account.';
+            // Try to get system settings only if table exists
+            try {
+                if (\Schema::hasTable('system_settings')) {
+                    $loginTopLogo = \App\Models\system_settings::where('key', 'login_top_logo')
+                        ->where('type', 'image')
+                        ->where('module_id', 6)
+                        ->where('status', 'active')
+                        ->first();
+                    
+                    if ($loginTopLogo && $loginTopLogo->value) {
+                        try {
+                            $topLogoPath = Storage::url($loginTopLogo->value);
+                        } catch (\Exception $e) {
+                            // Keep default
+                        }
+                    }
+
+                    $loginTopText = \App\Models\system_settings::where('key', 'login_top_text')
+                        ->where('type', 'text')
+                        ->where('module_id', 4)
+                        ->where('status', 'active')
+                        ->first();
+                    if ($loginTopText && $loginTopText->value) {
+                        $topText = $loginTopText->value;
+                    }
+
+                    $loginCenterLogo = \App\Models\system_settings::where('key', 'login_center_logo')
+                        ->where('type', 'image')
+                        ->where('module_id', 3)
+                        ->where('status', 'active')
+                        ->first();
+                    
+                    if ($loginCenterLogo && $loginCenterLogo->value) {
+                        try {
+                            $centerLogoPath = Storage::url($loginCenterLogo->value);
+                        } catch (\Exception $e) {
+                            // Keep default
+                        }
+                    }
+
+                    $loginCenterText = \App\Models\system_settings::where('key', 'login_center_text')
+                        ->where('type', 'text')
+                        ->where('module_id', 5)
+                        ->where('status', 'active')
+                        ->first();
+                    if ($loginCenterText && $loginCenterText->value) {
+                        $centerText = $loginCenterText->value;
+                    }
+                }
+            } catch (\Exception $e) {
+                // Silently fail and use defaults if system_settings queries fail
+                \Log::warning('System settings query failed: ' . $e->getMessage());
+            }
 
             return view('register.register', compact(
                 'courses', 
@@ -79,8 +95,8 @@ class RegisterController extends Controller
                 'centerText'
             ));
         } catch (\Exception $e) {
-            // Log the error
-            \Log::error('Register page error: ' . $e->getMessage());
+            // Log the error with full trace
+            \Log::error('Register page error: ' . $e->getMessage() . ' | ' . $e->getTraceAsString());
             
             // Return view with safe defaults
             return view('register.register', [
