@@ -16,37 +16,46 @@ class PdfController extends Controller
 {
     public function candidatesList()
     {
-        // Get the active school year
-        $activeSchoolYear = school_year_and_semester::active()->first();
-        
-        if (!$activeSchoolYear) {
-            abort(404, 'No active school year found');
-        }
-
-        // Get approved candidacies for the current school year
-        $approvedCandidacies = applied_candidacy::where('status', 'approved')
-            ->where('school_year_and_semester_id', $activeSchoolYear->id)
-            ->with(['students', 'position', 'school_year_and_semester'])
-            ->get();
-
-        // Group candidates by position
-        $candidatesByPosition = [];
-        foreach ($approvedCandidacies as $candidacy) {
-            $positionName = $candidacy->position ? $candidacy->position->position_name : 'Unknown Position';
-            if (!isset($candidatesByPosition[$positionName])) {
-                $candidatesByPosition[$positionName] = collect();
+        try {
+            // Get the active school year
+            $activeSchoolYear = school_year_and_semester::active()->first();
+            
+            if (!$activeSchoolYear) {
+                return response()->json(['error' => 'No active school year found'], 404);
             }
-            $candidatesByPosition[$positionName]->push($candidacy);
+
+            // Get approved candidacies for the current school year
+            $approvedCandidacies = applied_candidacy::where('status', 'approved')
+                ->where('school_year_and_semester_id', $activeSchoolYear->id)
+                ->with(['students', 'position', 'school_year_and_semester'])
+                ->get();
+
+            // Group candidates by position
+            $candidatesByPosition = [];
+            foreach ($approvedCandidacies as $candidacy) {
+                $positionName = $candidacy->position ? $candidacy->position->position_name : 'Unknown Position';
+                if (!isset($candidatesByPosition[$positionName])) {
+                    $candidatesByPosition[$positionName] = collect();
+                }
+                $candidatesByPosition[$positionName]->push($candidacy);
+            }
+
+            // Generate PDF
+            $pdf = Pdf::loadView('pdf.print-candidates-position', [
+                'candidatesByPosition' => $candidatesByPosition,
+                'activeSchoolYear' => $activeSchoolYear,
+                'totalCandidates' => $approvedCandidacies->count()
+            ]);
+
+            return $pdf->stream('candidates-list-' . date('Y-m-d') . '.pdf');
+        } catch (\Exception $e) {
+            \Log::error('PDF Generation Error (Candidates List): ' . $e->getMessage());
+            return response()->json([
+                'error' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine()
+            ], 500);
         }
-
-        // Generate PDF
-        $pdf = Pdf::loadView('pdf.print-candidates-position', [
-            'candidatesByPosition' => $candidatesByPosition,
-            'activeSchoolYear' => $activeSchoolYear,
-            'totalCandidates' => $approvedCandidacies->count()
-        ]);
-
-        return $pdf->stream('candidates-list-' . date('Y-m-d') . '.pdf');
     }
 
     public function candidatesElection(Request $request)
