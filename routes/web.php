@@ -62,6 +62,45 @@ Route::get('/debug/model-test', function() {
     }
 });
 
+// Test register controller data only
+Route::get('/debug/register-data', function() {
+    try {
+        $activeSchoolYear = \App\Models\School_Year_And_Semester::where('status', 'active')->first();
+        $courses = \App\Models\course::where('status', 'active')->orderBy('course_name')->get();
+        $departments = \App\Models\department::where('status', 'active')->orderBy('department_name')->get();
+        
+        return response()->json([
+            'status' => 'ok',
+            'school_year' => $activeSchoolYear ? $activeSchoolYear->year_and_semester : null,
+            'courses_count' => $courses->count(),
+            'departments_count' => $departments->count()
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'error' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine()
+        ], 500);
+    }
+});
+
+// Test view rendering with real data
+Route::get('/debug/render-test', function() {
+    try {
+        $controller = new \App\Http\Controllers\register\RegisterController();
+        return $controller->index();
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'error' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine(),
+            'trace' => array_slice(explode("\n", $e->getTraceAsString()), 0, 10)
+        ], 500);
+    }
+});
+
 // Test view compilation without rendering
 Route::get('/debug/view-test', function() {
     try {
