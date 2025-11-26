@@ -64,6 +64,10 @@ Route::get('/debug/model-test', function() {
 
 // Test register controller data only
 Route::get('/debug/register-data', function() {
+    set_error_handler(function($errno, $errstr, $errfile, $errline) {
+        throw new \ErrorException($errstr, 0, $errno, $errfile, $errline);
+    });
+    
     try {
         $activeSchoolYear = \App\Models\School_Year_And_Semester::where('status', 'active')->first();
         $courses = \App\Models\course::where('status', 'active')->orderBy('course_name')->get();
@@ -75,29 +79,39 @@ Route::get('/debug/register-data', function() {
             'courses_count' => $courses->count(),
             'departments_count' => $departments->count()
         ]);
-    } catch (\Exception $e) {
-        return response()->json([
-            'status' => 'error',
-            'error' => $e->getMessage(),
-            'file' => $e->getFile(),
-            'line' => $e->getLine()
-        ], 500);
-    }
-});
-
-// Test view rendering with real data
-Route::get('/debug/render-test', function() {
-    try {
-        $controller = new \App\Http\Controllers\register\RegisterController();
-        return $controller->index();
-    } catch (\Exception $e) {
+    } catch (\Throwable $e) {
         return response()->json([
             'status' => 'error',
             'error' => $e->getMessage(),
             'file' => $e->getFile(),
             'line' => $e->getLine(),
+            'class' => get_class($e)
+        ], 200); // Return 200 so we can see the error
+    } finally {
+        restore_error_handler();
+    }
+});
+
+// Test view rendering with real data
+Route::get('/debug/render-test', function() {
+    set_error_handler(function($errno, $errstr, $errfile, $errline) {
+        throw new \ErrorException($errstr, 0, $errno, $errfile, $errline);
+    });
+    
+    try {
+        $controller = new \App\Http\Controllers\register\RegisterController();
+        return $controller->index();
+    } catch (\Throwable $e) {
+        return response()->json([
+            'status' => 'error',
+            'error' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine(),
+            'class' => get_class($e),
             'trace' => array_slice(explode("\n", $e->getTraceAsString()), 0, 10)
-        ], 500);
+        ], 200); // Return 200 so we can see the error
+    } finally {
+        restore_error_handler();
     }
 });
 
