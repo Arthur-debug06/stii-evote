@@ -47,61 +47,15 @@ License: You must have a valid license purchased only from themeforest(the above
                     <!-- BEGIN: Login Info -->
                     <div class="hidden min-h-screen flex-col xl:flex">
                         <a class="flex items-center pt-10" href="">
-                            @php
-                                $loginTopLogo = \App\Models\system_settings::where('key', 'login_top_logo')
-                                    ->where('type', 'image')
-                                    ->where('module_id', 6)
-                                    ->where('status', 'active')
-                                    ->first();
-                                $topLogoPath = asset('assets/dist/images/logo.svg');
-                                if ($loginTopLogo && $loginTopLogo->value) {
-                                    try {
-                                        $topLogoPath = \Illuminate\Support\Facades\Storage::url($loginTopLogo->value);
-                                    } catch (\Exception $e) {
-                                        $topLogoPath = asset('assets/dist/images/logo.svg');
-                                    }
-                                }
-                            @endphp
-                            <img class="w-6" src="{{ $topLogoPath }}" alt="Login Logo">
-                            @php
-                                $loginTopText = \App\Models\system_settings::where('key', 'login_top_text')
-                                    ->where('type', 'text')
-                                    ->where('module_id', 4)
-                                    ->where('status', 'active')
-                                    ->first();
-                                $topText = $loginTopText ? $loginTopText->value : 'stii-evote Student Portal';
-                            @endphp
+                            <img class="w-6" src="{{ $topLogoPath ?? asset('assets/dist/images/logo.svg') }}" alt="Login Logo">
                             <span class="ml-3 text-xl font-medium text-white">
-                                {{ $topText }}
+                                {{ $topText ?? 'stii-evote Student Portal' }}
                             </span>
                         </a>
                         <div class="my-auto">
-                            @php
-                                $loginCenterLogo = \App\Models\system_settings::where('key', 'login_center_logo')
-                                    ->where('type', 'image')
-                                    ->where('module_id', 3)
-                                    ->where('status', 'active')
-                                    ->first();
-                                $centerLogoPath = asset('assets/dist/images/illustration.svg');
-                                if ($loginCenterLogo && $loginCenterLogo->value) {
-                                    try {
-                                        $centerLogoPath = \Illuminate\Support\Facades\Storage::url($loginCenterLogo->value);
-                                    } catch (\Exception $e) {
-                                        $centerLogoPath = asset('assets/dist/images/illustration.svg');
-                                    }
-                                }
-                            @endphp
-                            <img class="-mt-16 w-1/2" src="{{ $centerLogoPath }}" alt="Login Illustration">
-                            @php
-                                $loginCenterText = \App\Models\system_settings::where('key', 'login_center_text')
-                                    ->where('type', 'text')
-                                    ->where('module_id', 5)
-                                    ->where('status', 'active')
-                                    ->first();
-                                $centerText = $loginCenterText ? $loginCenterText->value : 'stii-evote<br>Sign in to your account.';
-                            @endphp
+                            <img class="-mt-16 w-1/2" src="{{ $centerLogoPath ?? asset('assets/dist/images/illustration.svg') }}" alt="Login Illustration">
                             <div class="mt-10 text-4xl font-medium leading-tight text-white">
-                                {!! $centerText !!}
+                                {!! $centerText ?? 'stii-evote<br>Sign in to your account.' !!}
                             </div>
                             <!-- <div class="mt-5 text-lg text-white opacity-60">
                                 Access your student portal and participate in voting

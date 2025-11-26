@@ -16,14 +16,83 @@ class RegisterController extends Controller
 {
     public function index()
     {
-        // Get active school year and semester
-        $activeSchoolYear = School_Year_And_Semester::where('status', 'active')->first();
+        try {
+            // Get active school year and semester
+            $activeSchoolYear = School_Year_And_Semester::where('status', 'active')->first();
 
-        // Get all courses and departments for dropdowns
-        $courses = Course::where('status', 'active')->orderBy('course_name')->get();
-        $departments = Department::where('status', 'active')->orderBy('department_name')->get();
+            // Get all courses and departments for dropdowns
+            $courses = Course::where('status', 'active')->orderBy('course_name')->get();
+            $departments = Department::where('status', 'active')->orderBy('department_name')->get();
 
-        return view('register.register', compact('courses', 'departments', 'activeSchoolYear'));
+            // Get system settings for logos and text with safe fallbacks
+            $loginTopLogo = \App\Models\system_settings::where('key', 'login_top_logo')
+                ->where('type', 'image')
+                ->where('module_id', 6)
+                ->where('status', 'active')
+                ->first();
+            
+            $topLogoPath = asset('assets/dist/images/logo.svg');
+            if ($loginTopLogo && $loginTopLogo->value) {
+                try {
+                    $topLogoPath = Storage::url($loginTopLogo->value);
+                } catch (\Exception $e) {
+                    $topLogoPath = asset('assets/dist/images/logo.svg');
+                }
+            }
+
+            $loginTopText = \App\Models\system_settings::where('key', 'login_top_text')
+                ->where('type', 'text')
+                ->where('module_id', 4)
+                ->where('status', 'active')
+                ->first();
+            $topText = $loginTopText ? $loginTopText->value : 'stii-evote Student Portal';
+
+            $loginCenterLogo = \App\Models\system_settings::where('key', 'login_center_logo')
+                ->where('type', 'image')
+                ->where('module_id', 3)
+                ->where('status', 'active')
+                ->first();
+            
+            $centerLogoPath = asset('assets/dist/images/illustration.svg');
+            if ($loginCenterLogo && $loginCenterLogo->value) {
+                try {
+                    $centerLogoPath = Storage::url($loginCenterLogo->value);
+                } catch (\Exception $e) {
+                    $centerLogoPath = asset('assets/dist/images/illustration.svg');
+                }
+            }
+
+            $loginCenterText = \App\Models\system_settings::where('key', 'login_center_text')
+                ->where('type', 'text')
+                ->where('module_id', 5)
+                ->where('status', 'active')
+                ->first();
+            $centerText = $loginCenterText ? $loginCenterText->value : 'stii-evote<br>Sign in to your account.';
+
+            return view('register.register', compact(
+                'courses', 
+                'departments', 
+                'activeSchoolYear',
+                'topLogoPath',
+                'topText',
+                'centerLogoPath',
+                'centerText'
+            ));
+        } catch (\Exception $e) {
+            // Log the error
+            \Log::error('Register page error: ' . $e->getMessage());
+            
+            // Return view with safe defaults
+            return view('register.register', [
+                'courses' => collect([]),
+                'departments' => collect([]),
+                'activeSchoolYear' => null,
+                'topLogoPath' => asset('assets/dist/images/logo.svg'),
+                'topText' => 'stii-evote Student Portal',
+                'centerLogoPath' => asset('assets/dist/images/illustration.svg'),
+                'centerText' => 'stii-evote<br>Sign in to your account.'
+            ]);
+        }
     }
 
     public function store(Request $request)
