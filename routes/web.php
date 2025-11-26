@@ -56,11 +56,34 @@ Route::get('/debug/check-tables', function() {
 // Debug register error route
 Route::get('/debug/register-error', function() {
     try {
+        // Test 1: Controller instantiation
         $controller = new \App\Http\Controllers\register\RegisterController();
-        $response = $controller->index();
+        
+        // Test 2: Get data without rendering view
+        $activeSchoolYear = \App\Models\School_Year_And_Semester::where('status', 'active')->first();
+        $courses = \App\Models\Course::where('status', 'active')->orderBy('course_name')->get();
+        $departments = \App\Models\Department::where('status', 'active')->orderBy('department_name')->get();
+        
+        // Test 3: Check if view file exists
+        $viewPath = resource_path('views/register/register.blade.php');
+        $viewExists = file_exists($viewPath);
+        
+        // Test 4: Check vite manifest
+        $manifestPath = public_path('build/manifest.json');
+        $manifestExists = file_exists($manifestPath);
+        
         return response()->json([
             'status' => 'success',
-            'message' => 'Register page loaded successfully'
+            'tests' => [
+                'controller_loaded' => true,
+                'school_year_found' => $activeSchoolYear ? true : false,
+                'courses_count' => $courses->count(),
+                'departments_count' => $departments->count(),
+                'view_exists' => $viewExists,
+                'manifest_exists' => $manifestExists,
+                'view_path' => $viewPath,
+                'manifest_path' => $manifestPath
+            ]
         ]);
     } catch (\Exception $e) {
         return response()->json([
