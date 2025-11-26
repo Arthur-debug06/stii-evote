@@ -1,0 +1,1 @@
+document.addEventListener("alpine:init",()=>{Alpine.directive("calendar-draggable",(t,{expression:a},{evaluate:n})=>{new Draggable(t,{itemSelector:"[data-event]",eventData:function(e){return{title:e.querySelectorAll("[data-title]")[0].innerText,duration:{days:parseInt(e.querySelectorAll("[data-days]")[0].innerText)}}}})})});

@@ -1,0 +1,1 @@
+document.addEventListener("alpine:init",()=>{Alpine.directive("tiny-slider",(e,{expression:t},{evaluate:n})=>{const s=n(t);e.tns=tns({container:e,mouseDrag:!0,autoplay:!0,controls:!1,center:!0,items:1,nav:!1,speed:500,...s})})});
