@@ -278,9 +278,11 @@
                             Profile Image
                         </label>
                         <div class="col-span-3">
-                            @if($temp_profile_image)
+                            @if($temp_profile_image && $editAdminId)
                                 <div class="mb-2">
-                                    <img src="{{ \Illuminate\Support\Facades\Storage::url($temp_profile_image) }}" alt="Current Profile" class="w-16 h-16 rounded-full object-cover">
+                                    <a href="{{ route('attachments.admin-image', ['admin' => $editAdminId, 'type' => 'profile']) }}" target="_blank">
+                                        <img src="{{ route('attachments.admin-image', ['admin' => $editAdminId, 'type' => 'profile']) }}" alt="Current Profile" class="w-16 h-16 rounded-full object-cover cursor-pointer hover:scale-105 transition-transform">
+                                    </a>
                                     <p class="text-xs text-gray-500 mt-1">Current profile image</p>
                                 </div>
                             @endif
@@ -346,7 +348,9 @@
                             <td class="shadow-[3px_3px_5px_#0000000b] first:rounded-l-xl last:rounded-r-xl box rounded-none p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 border-y border-foreground/10 bg-background first:border-l last:border-r">
                                 <div class="flex items-center">
                                     @if($item->profile_image)
-                                        <img src="{{ \Illuminate\Support\Facades\Storage::url($item->profile_image) }}" alt="Profile" class="w-10 h-10 rounded-full object-cover">
+                                        <a href="{{ route('attachments.admin-image', ['admin' => $item->id, 'type' => 'profile']) }}" target="_blank">
+                                            <img src="{{ route('attachments.admin-image', ['admin' => $item->id, 'type' => 'profile']) }}" alt="Profile" class="w-10 h-10 rounded-full object-cover cursor-pointer hover:scale-105 transition-transform">
+                                        </a>
                                     @else
                                         <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
                                             <!-- Placeholder for no profile image -->

@@ -35,12 +35,12 @@
                                 @php
                                     $avatarSrc = null;
                                     $studentImg = $c->students->profile_image ?? null;
-                                    if ($studentImg && \Illuminate\Support\Facades\Storage::disk('public')->exists($studentImg)) {
-                                        $avatarSrc = route('public.file', ['path' => $studentImg]);
+                                    if ($studentImg && $c->students) {
+                                        $avatarSrc = route('attachments.student-image', ['student' => $c->students->id, 'type' => 'profile']);
                                     }
                                 @endphp
                                 @if($avatarSrc)
-                                    <img src="{{ $avatarSrc }}" alt="{{ $c->students->first_name }}" class="w-12 h-12 object-cover">
+                                    <img src="{{ $avatarSrc }}" alt="{{ $c->students->first_name }}" class="w-12 h-12 object-cover" onerror="this.style.display='none';">
                                 @else
                                     {{ strtoupper(substr($c->students->first_name ?? '', 0, 1) . substr($c->students->last_name ?? '', 0, 1)) }}
                                 @endif

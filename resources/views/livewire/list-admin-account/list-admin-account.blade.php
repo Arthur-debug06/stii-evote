@@ -96,37 +96,12 @@
                                     @php
                                         $imageSrc = asset('images/placeholders/placeholder.jpg'); // Default placeholder
                                         
-                                        // Check profile_image field first (profile_pictures folder)
+                                        // Use route-based image loading for admins
                                         if ($admin->profile_image) {
-                                            if (\Illuminate\Support\Facades\Storage::disk('public')->exists($admin->profile_image)) {
-                                                $imageSrc = \Illuminate\Support\Facades\Storage::url($admin->profile_image);
-                                            }
-                                        }
-                                        
-                                        // If no profile_image or file doesn't exist, check admin_images directory
-                                        if ($imageSrc === asset('images/placeholders/placeholder.jpg')) {
-                                            $adminImagesPath = storage_path('app/public/admin_images/');
-                                            
-                                            // Look for profile images with admin ID
-                                            $profilePattern = $adminImagesPath . '*_profile_*' . $admin->id . '*';
-                                            $profileFiles = glob($profilePattern);
-                                            
-                                            if (!empty($profileFiles)) {
-                                                $profileFile = basename($profileFiles[0]);
-                                                $imageSrc = \Illuminate\Support\Facades\Storage::url('admin_images/' . $profileFile);
-                                            } else {
-                                                // Look for ID images as fallback
-                                                $idPattern = $adminImagesPath . '*_id_*' . $admin->id . '*';
-                                                $idFiles = glob($idPattern);
-                                                
-                                                if (!empty($idFiles)) {
-                                                    $idFile = basename($idFiles[0]);
-                                                    $imageSrc = \Illuminate\Support\Facades\Storage::url('admin_images/' . $idFile);
-                                                }
-                                            }
+                                            $imageSrc = route('attachments.admin-image', ['admin' => $admin->id, 'type' => 'profile']);
                                         }
                                     @endphp
-                                    <img class="rounded-lg" src="{{ $imageSrc }}" alt="Admin Photo">
+                                    <img class="rounded-lg" src="{{ $imageSrc }}" alt="Admin Photo" onerror="this.src='{{ asset('images/placeholders/placeholder.jpg') }}'">
                                     <div class="flex cursor-pointer items-center rounded-full border px-2 py-px text-xs border-(--color-pending) bg-(--color-pending)/70 absolute top-0 z-10 m-5 text-white [--color:var(--color-pending)]">
                                         {{ $roleName }}
                                     </div>

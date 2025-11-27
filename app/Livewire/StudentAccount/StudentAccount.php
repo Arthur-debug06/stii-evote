@@ -120,6 +120,59 @@ class StudentAccount extends Component
         $this->deleteStudentId = null;
     }
 
+    private function getImageBase64($imagePath)
+    {
+        if (!$imagePath) {
+            return null;
+        }
+
+        try {
+            // Try different possible storage locations
+            $possiblePaths = [
+                $imagePath,
+                'public/' . $imagePath,
+                'private/public/' . $imagePath,
+            ];
+
+            // Try public disk first
+            foreach ($possiblePaths as $path) {
+                if (Storage::disk('public')->exists($path)) {
+                    $imageData = Storage::disk('public')->get($path);
+                    $extension = pathinfo($imagePath, PATHINFO_EXTENSION);
+                    $mimeType = match(strtolower($extension)) {
+                        'jpg', 'jpeg' => 'image/jpeg',
+                        'png' => 'image/png',
+                        'gif' => 'image/gif',
+                        'webp' => 'image/webp',
+                        default => 'image/jpeg',
+                    };
+                    return 'data:' . $mimeType . ';base64,' . base64_encode($imageData);
+                }
+            }
+
+            // Try local disk (private storage)
+            foreach ($possiblePaths as $path) {
+                if (Storage::disk('local')->exists($path)) {
+                    $imageData = Storage::disk('local')->get($path);
+                    $extension = pathinfo($imagePath, PATHINFO_EXTENSION);
+                    $mimeType = match(strtolower($extension)) {
+                        'jpg', 'jpeg' => 'image/jpeg',
+                        'png' => 'image/png',
+                        'gif' => 'image/gif',
+                        'webp' => 'image/webp',
+                        default => 'image/jpeg',
+                    };
+                    return 'data:' . $mimeType . ';base64,' . base64_encode($imageData);
+                }
+            }
+
+            return null;
+        } catch (\Exception $e) {
+            \Log::error('Image loading error: ' . $e->getMessage());
+            return null;
+        }
+    }
+
     public function createStudent()
     {
                $this->validate([

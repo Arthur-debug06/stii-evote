@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\applied_candidacy;
 use App\Models\students;
+use App\Models\User;
 
 class AttachmentController extends Controller
 {
@@ -54,6 +55,38 @@ class AttachmentController extends Controller
             $path = $student->student_id_image;
         }elseif ($type === 'id_back') {
             $path = $student->student_id_image_back;
+        }
+
+        if (empty($path)) {
+            abort(404);
+        }
+
+        if (Storage::disk('public')->exists($path)) {
+            $full = Storage::disk('public')->path($path);
+            if (file_exists($full)) {
+                return response()->file($full);
+            }
+        }
+
+        $full = storage_path('app/' . $path);
+        if (file_exists($full)) {
+            return response()->file($full);
+        }
+
+        abort(404);
+    }
+
+    /**
+     * Serve admin profile image by admin id.
+     * $type = 'profile'
+     */
+    public function adminImage($adminId, $type)
+    {
+        $admin = User::findOrFail($adminId);
+
+        $path = null;
+        if ($type === 'profile') {
+            $path = $admin->profile_image;
         }
 
         if (empty($path)) {

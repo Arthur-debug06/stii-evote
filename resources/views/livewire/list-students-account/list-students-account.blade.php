@@ -96,37 +96,15 @@
                                     @php
                                         $imageSrc = asset('images/placeholders/placeholder.jpg'); // Default placeholder
                                         
-                                        // Check profile_image field first (profile_pictures folder)
+                                        // Check if student has profile image
                                         if ($student->profile_image) {
-                                            if (\Illuminate\Support\Facades\Storage::disk('public')->exists($student->profile_image)) {
-                                                $imageSrc = \Illuminate\Support\Facades\Storage::url($student->profile_image);
-                                            }
-                                        }
-                                        
-                                        // If no profile_image or file doesn't exist, check student_images directory
-                                        if ($imageSrc === asset('images/placeholders/placeholder.jpg')) {
-                                            $studentImagesPath = storage_path('app/public/student_images/');
-                                            
-                                            // Look for profile images with student ID
-                                            $profilePattern = $studentImagesPath . '*_profile_*' . $student->id . '*';
-                                            $profileFiles = glob($profilePattern);
-                                            
-                                            if (!empty($profileFiles)) {
-                                                $profileFile = basename($profileFiles[0]);
-                                                $imageSrc = \Illuminate\Support\Facades\Storage::url('student_images/' . $profileFile);
-                                            } else {
-                                                // Look for ID images as fallback
-                                                $idPattern = $studentImagesPath . '*_id_*' . $student->id . '*';
-                                                $idFiles = glob($idPattern);
-                                                
-                                                if (!empty($idFiles)) {
-                                                    $idFile = basename($idFiles[0]);
-                                                    $imageSrc = \Illuminate\Support\Facades\Storage::url('student_images/' . $idFile);
-                                                }
-                                            }
+                                            $imageSrc = route('attachments.student-image', ['student' => $student->id, 'type' => 'profile']);
+                                        } elseif ($student->student_id_image) {
+                                            // Fallback to ID image if no profile image
+                                            $imageSrc = route('attachments.student-image', ['student' => $student->id, 'type' => 'id']);
                                         }
                                     @endphp
-                                    <img class="rounded-lg" src="{{ $imageSrc }}" alt="Student Photo">
+                                    <img class="rounded-lg" src="{{ $imageSrc }}" alt="Student Photo" onerror="this.src='{{ asset('images/placeholders/placeholder.jpg') }}'">
                                     <div class="flex cursor-pointer items-center rounded-full border px-2 py-px text-xs border-(--color-pending) bg-(--color-pending)/70 absolute top-0 z-10 m-5 text-white [--color:var(--color-pending)]">
                                         {{ $courseName }}
                                     </div>

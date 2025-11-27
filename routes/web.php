@@ -372,6 +372,7 @@ Route::get('/voting-histories/{id}', [\App\Http\Controllers\VotingHistoryControl
 // Attachment route for grade attachments (served via controller to avoid direct storage issues)
 Route::get('/attachments/candidacy-grade/{id}', [\App\Http\Controllers\AttachmentController::class, 'candidacyGrade'])->name('attachments.candidacy-grade');
 Route::get('/attachments/student-image/{student}/{type}', [\App\Http\Controllers\AttachmentController::class, 'studentImage'])->name('attachments.student-image');
+Route::get('/attachments/admin-image/{admin}/{type}', [\App\Http\Controllers\AttachmentController::class, 'adminImage'])->name('attachments.admin-image');
 
 // Public file serving route (avoids symlink 403 issues)
 Route::get('/files/{path}', [PublicFileController::class, 'show'])

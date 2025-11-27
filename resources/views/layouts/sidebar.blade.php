@@ -900,7 +900,12 @@
                             @endphp
                             @if($currentUser)
                                 @if($currentUser->profile_image)
-                                    <img class="absolute top-0 h-full w-full object-cover" src="{{ \Illuminate\Support\Facades\Storage::url($currentUser->profile_image) }}" alt="User Profile">
+                                    @php
+                                        $imageRoute = $currentUser instanceof \App\Models\students
+                                            ? route('attachments.student-image', ['student' => $currentUser->id, 'type' => 'profile'])
+                                            : route('attachments.admin-image', ['admin' => $currentUser->id, 'type' => 'profile']);
+                                    @endphp
+                                    <img class="absolute top-0 h-full w-full object-cover" src="{{ $imageRoute }}" alt="User Profile" onerror="this.style.display='none';">
                                 @else
                                     <div class="absolute top-0 h-full w-full flex items-center justify-center bg-gray-200 text-gray-600 text-sm font-bold">
                                         @if($currentUser instanceof \App\Models\students)

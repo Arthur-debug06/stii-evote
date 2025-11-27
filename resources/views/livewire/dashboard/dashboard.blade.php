@@ -310,38 +310,15 @@
                                         @php
                                             $imageSrc = asset('images/placeholders/placeholder.jpg'); // Default placeholder
                                             
-                                            // Check profile_image field first (profile_pictures folder)
+                                            // Use route-based image loading
                                             if ($transaction->student && $transaction->student->profile_image) {
-                                                if (\Illuminate\Support\Facades\Storage::disk('public')->exists($transaction->student->profile_image)) {
-                                                    $imageSrc = asset('storage/' . $transaction->student->profile_image);
-                                                }
-                                            }
-                                            
-                                            // If no profile_image or file doesn't exist, check student_images directory
-                                            if ($imageSrc === asset('images/placeholders/placeholder.jpg') && $transaction->student) {
-                                                $studentImagesPath = storage_path('app/public/student_images/');
-                                                
-                                                // Look for profile images with student ID
-                                                $profilePattern = $studentImagesPath . '*_profile_*' . $transaction->student->id . '*';
-                                                $profileFiles = glob($profilePattern);
-                                                
-                                                if (!empty($profileFiles)) {
-                                                    $profileFile = basename($profileFiles[0]);
-                                                    $imageSrc = \Illuminate\Support\Facades\Storage::url('student_images/' . $profileFile);
-                                                } else {
-                                                    // Look for ID images as fallback
-                                                    $idPattern = $studentImagesPath . '*_id_*' . $transaction->student->id . '*';
-                                                    $idFiles = glob($idPattern);
-                                                    
-                                                    if (!empty($idFiles)) {
-                                                        $idFile = basename($idFiles[0]);
-                                                        $imageSrc = \Illuminate\Support\Facades\Storage::url('student_images/' . $idFile);
-                                                    }
-                                                }
+                                                $imageSrc = route('attachments.student-image', ['student' => $transaction->student->id, 'type' => 'profile']);
+                                            } elseif ($transaction->student && $transaction->student->student_id_image) {
+                                                $imageSrc = route('attachments.student-image', ['student' => $transaction->student->id, 'type' => 'id']);
                                             }
                                         @endphp
                                         @if($imageSrc !== asset('images/placeholders/placeholder.jpg'))
-                                            <img class="absolute top-0 size-full object-cover" src="{{ $imageSrc }}" alt="{{ $transaction->student->first_name ?? 'Unknown' }} {{ $transaction->student->last_name ?? 'Student' }}">
+                                            <img class="absolute top-0 size-full object-cover" src="{{ $imageSrc }}" alt="{{ $transaction->student->first_name ?? 'Unknown' }} {{ $transaction->student->last_name ?? 'Student' }}" onerror="this.style.display='none'; this.parentElement.innerHTML+='<div class=&quot;absolute top-0 size-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-sm&quot;>{{ strtoupper(substr($transaction->student->first_name ?? "U", 0, 1)) }}{{ strtoupper(substr($transaction->student->last_name ?? "N", 0, 1)) }}</div>';">
                                         @else
                                             <div class="absolute top-0 size-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-sm">
                                                 {{ strtoupper(substr($transaction->student->first_name ?? 'U', 0, 1)) }}{{ strtoupper(substr($transaction->student->last_name ?? 'N', 0, 1)) }}
@@ -496,38 +473,15 @@
                                         @php
                                             $imageSrc = asset('images/placeholders/placeholder.jpg'); // Default placeholder
                                             
-                                            // Check profile_image field first (profile_pictures folder)
+                                            // Use route-based image loading
                                             if ($transaction->student && $transaction->student->profile_image) {
-                                                if (file_exists(public_path('storage/' . $transaction->student->profile_image))) {
-                                                    $imageSrc = \Illuminate\Support\Facades\Storage::url($transaction->student->profile_image);
-                                                }
-                                            }
-                                            
-                                            // If no profile_image or file doesn't exist, check student_images directory
-                                            if ($imageSrc === asset('images/placeholders/placeholder.jpg') && $transaction->student) {
-                                                $studentImagesPath = storage_path('app/public/student_images/');
-                                                
-                                                // Look for profile images with student ID
-                                                $profilePattern = $studentImagesPath . '*_profile_*' . $transaction->student->id . '*';
-                                                $profileFiles = glob($profilePattern);
-                                                
-                                                if (!empty($profileFiles)) {
-                                                    $profileFile = basename($profileFiles[0]);
-                                                    $imageSrc = asset('storage/student_images/' . $profileFile);
-                                                } else {
-                                                    // Look for ID images as fallback
-                                                    $idPattern = $studentImagesPath . '*_id_*' . $transaction->student->id . '*';
-                                                    $idFiles = glob($idPattern);
-                                                    
-                                                    if (!empty($idFiles)) {
-                                                        $idFile = basename($idFiles[0]);
-                                                        $imageSrc = asset('storage/student_images/' . $idFile);
-                                                    }
-                                                }
+                                                $imageSrc = route('attachments.student-image', ['student' => $transaction->student->id, 'type' => 'profile']);
+                                            } elseif ($transaction->student && $transaction->student->student_id_image) {
+                                                $imageSrc = route('attachments.student-image', ['student' => $transaction->student->id, 'type' => 'id']);
                                             }
                                         @endphp
                                         @if($imageSrc !== asset('images/placeholders/placeholder.jpg'))
-                                            <img class="absolute top-0 size-full object-cover" src="{{ $imageSrc }}" alt="{{ $transaction->student->first_name ?? 'Unknown' }} {{ $transaction->student->last_name ?? 'Student' }}">
+                                            <img class="absolute top-0 size-full object-cover" src="{{ $imageSrc }}" alt="{{ $transaction->student->first_name ?? 'Unknown' }} {{ $transaction->student->last_name ?? 'Student' }}" onerror="this.style.display='none';">
                                         @else
                                             <div class="absolute top-0 size-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-sm">
                                                 {{ strtoupper(substr($transaction->student->first_name ?? 'U', 0, 1)) }}{{ strtoupper(substr($transaction->student->last_name ?? 'N', 0, 1)) }}
