@@ -9,10 +9,22 @@
                 <div class="relative z-10 hidden h-[65px] w-[275px] flex-none items-center overflow-hidden px-6 duration-200 xl:flex group-[.side-menu--collapsed.side-menu--on-hover]:xl:w-[275px] group-[.side-menu--collapsed]:xl:w-[110px]">
                     <a class="flex items-center transition-[margin] duration-200 xl:ml-2 group-[.side-menu--collapsed.side-menu--on-hover]:xl:ml-2 group-[.side-menu--collapsed]:xl:ml-6" href="">
                         @php
-                        $logoPath = 'http://127.0.0.1:8000/storage/system_settings/1757310054_958f3106-933e-45f6-94d4-16494684712d-modified.png';
-                    @endphp
+                            $sidebarLogo = \App\Models\system_settings::where('key', 'sidebar_logo')
+                                ->where('type', 'image')
+                                ->where('module_id', 1)
+                                ->where('status', 'active')
+                                ->first();
+                            $logoPath = asset('assets/dist/images/logo.svg');
+                            if ($sidebarLogo && $sidebarLogo->value) {
+                                try {
+                                    $logoPath = \Illuminate\Support\Facades\Storage::url($sidebarLogo->value);
+                                } catch (\Exception $e) {
+                                    $logoPath = asset('assets/dist/images/logo.svg');
+                                }
+                            }
+                        @endphp
 
-<img class="size-12" src="{{ $logoPath }}" alt="Sidebar Logo">
+                        <img class="size-12" src="{{ $logoPath }}" alt="Sidebar Logo">
 
                         <div class="ml-3.5 text-nowrap transition-opacity group-[.side-menu--collapsed.side-menu--on-hover]:xl:opacity-100 group-[.side-menu--collapsed]:xl:opacity-0">
                             @php
