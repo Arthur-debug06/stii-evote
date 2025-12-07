@@ -160,69 +160,35 @@
                         </div>
                     </div>
                     <div class="mt-5 opacity-70">
-                    <div class="mt-2 flex items-center">
+                        <div class="mt-2 flex items-center">
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="badge" class="lucide lucide-badge size-4 stroke-[1.5] [--color:currentColor] stroke-(--color) fill-(--color)/25 mr-2 h-4 w-4"><path d="M3 7v10a2 2 0 0 0 2 2h3l2 2 2-2h3a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2Z"></path></svg>
 							<span class="text-sm">Name: </span>
-							<span class="ml-1 text-sm font-medium">    {{ $student->first_name }} {{ $student->last_name }}
-                            </span>
+							<span class="ml-1 text-sm font-medium">{{ $student->first_name }} {{ $student->last_name }}</span>
 						</div>
 						<div class="mt-2 flex items-center">
-							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="badge" class="lucide lucide-badge size-4 stroke-[1.5] [--color:currentColor] stroke-(--color) fill-(--color)/25 mr-2 h-4 w-4"><path d="M3 7v10a2 2 0 0 0 2 2h3l2 2 2-2h3a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2Z"></path></svg>
-							<span class="text-sm">Position: </span>
-							<span class="ml-1 text-sm font-medium">{{ $position }}</span>
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="book" class="lucide lucide-book size-4 stroke-[1.5] [--color:currentColor] stroke-(--color) fill-(--color)/25 mr-2 h-4 w-4"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+							<span class="text-sm">Course: </span>
+							<span class="ml-1 text-sm font-medium">{{ $student->course->course_name ?? 'N/A' }}</span>
 						</div>
-						<div class="mt-1 flex items-center">
-							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="users" class="lucide lucide-users size-4 stroke-[1.5] [--color:currentColor] stroke-(--color) fill-(--color)/25 mr-2 h-4 w-4"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-							<span class="text-sm">Partylist: </span>
-							<span class="ml-1 text-sm font-medium">
-								{{ optional(optional($candidate->appliedCandidacy)->partylist)->partylist_name ?? 'Independent' }}
-							</span>
+						<div class="mt-2 flex items-center">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="building" class="lucide lucide-building size-4 stroke-[1.5] [--color:currentColor] stroke-(--color) fill-(--color)/25 mr-2 h-4 w-4"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><path d="M9 22v-4h6v4"></path><path d="M8 6h.01"></path><path d="M16 6h.01"></path><path d="M12 6h.01"></path><path d="M12 10h.01"></path><path d="M12 14h.01"></path><path d="M16 10h.01"></path><path d="M16 14h.01"></path><path d="M8 10h.01"></path><path d="M8 14h.01"></path></svg>
+							<span class="text-sm">Department: </span>
+							<span class="ml-1 text-sm font-medium">{{ $student->department->department_name ?? 'N/A' }}</span>
 						</div>
-                        <div class="mt-2 flex items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="bar-chart" class="lucide lucide-bar-chart size-4 stroke-[1.5] [--color:currentColor] stroke-(--color) fill-(--color)/25 mr-2 h-4 w-4"><path d="M12 20V10"></path><path d="M18 20V4"></path><path d="M6 20v-4"></path></svg>
-                                        <span class="text-sm">Votes: </span>
-                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 ml-1">
-                                            {{ $voteCount }}
-                                        </span>
-                                    </div>
-                        <div class="mt-2 flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="check-square" class="lucide lucide-check-square size-4 stroke-[1.5] [--color:currentColor] stroke-(--color) fill-(--color)/25 mr-2 h-4 w-4"><path d="M21 10.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12.5"></path><path d="m9 11 3 3L22 4"></path></svg>
-                            <span class="text-sm">Status: </span>
-                            @if($status === 'win')
-                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 ml-1">
-                                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    Winner
-                                </span>
-                            @elseif($status === 'loss')
-                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 ml-1">
-                                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    Lost Election
-                                </span>
-                            @elseif($status === 'official')
-                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 ml-1">
-                                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    Official Candidate
-                                </span>
-                            @else
-                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 ml-1">
-                                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    {{ ucfirst($status) }}
-                                </span>
-                            @endif
-                        </div>
-                        
-                        @if($status === 'loss')
+                        @php
+                            $partylistName = optional(optional($candidate->appliedCandidacy)->partylist)->partylist_name;
+                            if (!$partylistName) {
+                                // Try to get from applied_candidacy if candidate is from that model
+                                if ($candidate instanceof \App\Models\applied_candidacy) {
+                                    $partylistName = optional($candidate->partylist)->partylist_name;
+                                }
+                            }
+                        @endphp
+                        @if($partylistName)
                             <div class="mt-2 flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="trending-down" class="lucide lucide-trending-down size-4 stroke-[1.5] [--color:currentColor] stroke-(--color) fill-(--color)/25 mr-2 h-4 w-4"><path d="M22 17l-8.5-8.5-5 5L2 7"></path><path d="M16 17h6v-6"></path></svg>
-                                <span class="text-sm text-red-600">Did not win this position</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="users" class="lucide lucide-users size-4 stroke-[1.5] [--color:currentColor] stroke-(--color) fill-(--color)/25 mr-2 h-4 w-4"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                <span class="text-sm">Party: </span>
+                                <span class="ml-1 text-sm font-medium">{{ $partylistName }}</span>
                             </div>
                         @endif
                     </div>
@@ -282,7 +248,25 @@
         @endif
         
         @if(count($activeVotingExclusives) > 0 && $canVote)
-            <div class="col-span-12 flex justify-end mt-6">
+            <div class="col-span-12 flex justify-between mt-6">
+                <div>
+                    @if(!$hasVoted && count($availablePartylists) > 0)
+                        <button 
+                            type="button" 
+                            wire:click="showPartyVotingOptions"
+                            class="cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-purple-100 border-purple-300 text-purple-700 hover:bg-purple-200 h-10 px-4 py-2 box"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                            Vote Straight Party Ticket
+                        </button>
+                    @endif
+                </div>
+                <div>
                 @if($hasVoted)
                     <div class="flex items-center gap-3">
                         <div class="flex items-center gap-2 text-green-600">
@@ -317,6 +301,7 @@
                         Submit Vote
                     </button>
                 @endif
+                </div>
             </div>
         @elseif(count($activeVotingExclusives) > 0 && !$canVote && $canViewCandidates)
             <div class="col-span-12 flex justify-center mt-6">
@@ -515,6 +500,69 @@
             <x-slot:footer>
                 <button type="button" wire:click="closeImageModal" class="cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 text-foreground hover:bg-foreground/5 bg-background border-foreground/20 h-10 px-4 py-2 w-24 mx-auto">
                     Exit
+                </button>
+            </x-slot:footer>
+        </x-menu.modal>
+    @endif
+
+    {{-- Party Voting Modal --}}
+    @if($showPartyVotingModal)
+        <x-menu.modal wire:model="showPartyVotingModal" size="lg">
+            <x-slot:header>
+                <h3 class="text-lg font-semibold">Vote Straight Party Ticket</h3>
+            </x-slot:header>
+
+            <div class="p-5">
+                <p class="mb-4 text-gray-600">Select a party to vote for all their candidates at once. You can still modify individual selections afterwards.</p>
+                
+                <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    @foreach($availablePartylists as $partylist)
+                        <div 
+                            wire:click="votePartyTicket({{ $partylist['id'] }})"
+                            class="cursor-pointer border rounded-lg p-4 hover:shadow-md hover:border-purple-300 transition-all"
+                        >
+                            <div class="flex items-center gap-3">
+                                @if(!empty($partylist['image']))
+                                    @php
+                                        $partyImageSrc = asset('images/placeholders/placeholder.jpg');
+                                        if (\Illuminate\Support\Facades\Storage::disk('public')->exists($partylist['image'])) {
+                                            $partyImageSrc = route('public.file', ['path' => $partylist['image']]);
+                                        }
+                                    @endphp
+                                    <img src="{{ $partyImageSrc }}" alt="{{ $partylist['name'] }}" class="w-16 h-16 object-cover rounded-lg">
+                                @else
+                                    <div class="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-purple-600">
+                                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="9" cy="7" r="4"></circle>
+                                            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                        </svg>
+                                    </div>
+                                @endif
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-purple-800">{{ $partylist['name'] }}</h4>
+                                    @if(!empty($partylist['description']))
+                                        <p class="text-sm text-gray-600 mt-1">{{ $partylist['description'] }}</p>
+                                    @endif
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-purple-600">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+
+            <x-slot:footer>
+                <button 
+                    data-tw-dismiss="modal" 
+                    type="button" 
+                    wire:click="closePartyVotingModal" 
+                    class="cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 text-foreground hover:bg-foreground/5 bg-background border-foreground/20 h-10 px-4 py-2 w-24 mx-auto"
+                >
+                    Cancel
                 </button>
             </x-slot:footer>
         </x-menu.modal>

@@ -55,7 +55,7 @@ class CandidacyManagement extends Component
         'is_regular_student' => 'required|boolean',
         'position_id' => 'required|exists:position,id',
         'partylist_id' => 'nullable|exists:partylist,id',
-        'grade_attachment' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
+        'grade_attachment' => 'required|file|mimes:jpg,jpeg,png,pdf,gif,bmp,webp,svg|max:10240',
         
         // Certificate of Candidacy fields (matching the certificate form)
         'first_name' => 'required|string|max:255',

@@ -258,7 +258,7 @@
                                 class="form-control" 
                                 accept="image/*,.pdf"
                                 required>
-                            <div class="text-xs text-gray-500 mt-1">Upload a clear picture or PDF of your evaluated grades (not lower than 85 as general average)</div>
+                            <div class="text-xs text-gray-500 mt-1">Upload your evaluated grades (not lower than 85 as general average). Accepts images (JPG, PNG, GIF, BMP, WEBP, SVG) or PDF up to 10MB.</div>
                             @error('grade_attachment') <div class="text-red-500 text-xs mt-1">{{ $message }}</div> @enderror
                         </div>
 
@@ -495,7 +495,7 @@
                                 class="form-control" 
                                 accept="image/*,.pdf"
                                 required>
-                            <div class="text-xs text-gray-500 mt-1">Upload a clear picture or PDF of your evaluated grades (not lower than 85 as general average)</div>
+                            <div class="text-xs text-gray-500 mt-1">Upload your evaluated grades (not lower than 85 as general average). Accepts images (JPG, PNG, GIF, BMP, WEBP, SVG) or PDF up to 10MB.</div>
                             @error('grade_attachment') <div class="text-red-500 text-xs mt-1">{{ $message }}</div> @enderror
                         </div>
 

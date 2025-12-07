@@ -12,6 +12,7 @@ use App\Models\applied_candidacy;
 use App\Models\department;
 use App\Models\course;
 use App\Models\school_year_and_semester;
+use App\Models\partylist;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -39,6 +40,10 @@ class OnGoingElection extends Component
     // Disable front-end pagination for positions by default so all positions render on one page.
     // Set to true if you want to enable the pagination UI again.
     public $enablePagination = false;
+    
+    // Straight party voting
+    public $availablePartylists = [];
+    public $showPartyVotingModal = false;
 
     protected $rules = [
         'selectedCandidates' => 'required|array|min:1',
@@ -55,6 +60,7 @@ class OnGoingElection extends Component
         $this->currentVoterId = Auth::guard('students')->id();
         $this->currentStudent = students::find($this->currentVoterId);
         $this->loadActiveVotingExclusives();
+        $this->loadAvailablePartylists();
         $this->initializePositionVoteCounts();
         $this->checkIfUserHasVoted();
         $this->checkVotingPermissions();
@@ -357,6 +363,138 @@ class OnGoingElection extends Component
     {
         $this->showVoteConfirmationModal = false;
         $this->submitVote();
+    }
+
+    public function loadAvailablePartylists()
+    {
+        // Get all partylists that have candidates in current active elections
+        $partylistIds = [];
+        
+        foreach ($this->activeVotingExclusives as $exclusive) {
+            foreach ($exclusive['candidates_by_position'] as $positionData) {
+                foreach ($positionData['candidates'] as $candidate) {
+                    $candidacy = null;
+                    
+                    // Check if this is a vote_count or applied_candidacy object
+                    if (isset($candidate->students_id)) {
+                        // This is from voting_vote_count
+                        $candidacy = applied_candidacy::where('students_id', $candidate->students_id)
+                            ->where('status', 'approved')
+                            ->first();
+                    } elseif (isset($candidate->id) && $candidate instanceof \App\Models\applied_candidacy) {
+                        $candidacy = $candidate;
+                    }
+                    
+                    if ($candidacy && $candidacy->partylist_id) {
+                        $partylistIds[] = $candidacy->partylist_id;
+                    }
+                }
+            }
+        }
+        
+        $partylistIds = array_unique($partylistIds);
+        
+        $this->availablePartylists = \App\Models\partylist::whereIn('id', $partylistIds)
+            ->where('status', 'active')
+            ->get()
+            ->map(function($partylist) {
+                return [
+                    'id' => $partylist->id,
+                    'name' => $partylist->partylist_name,
+                    'description' => $partylist->description,
+                    'image' => $partylist->partylist_image
+                ];
+            })
+            ->toArray();
+    }
+
+    public function showPartyVotingOptions()
+    {
+        if (empty($this->availablePartylists)) {
+            $this->dispatch('show-toast', [
+                'message' => 'No party lists available in this election.',
+                'type' => 'info',
+                'title' => 'No Parties'
+            ]);
+            return;
+        }
+        
+        $this->showPartyVotingModal = true;
+    }
+
+    public function closePartyVotingModal()
+    {
+        $this->showPartyVotingModal = false;
+    }
+
+    public function votePartyTicket($partylistId)
+    {
+        // Clear current selections
+        $this->selectedCandidates = [];
+        $this->positionVoteCounts = [];
+        
+        // Get all candidates from this partylist across all positions
+        $selectedCount = 0;
+        $positionLimits = [];
+        
+        foreach ($this->activeVotingExclusives as $exclusive) {
+            foreach ($exclusive['candidates_by_position'] as $positionName => $positionData) {
+                $allowedVotes = $positionData['allowed_votes'];
+                $positionLimits[$positionName] = $allowedVotes;
+                $currentPositionCount = 0;
+                
+                foreach ($positionData['candidates'] as $candidate) {
+                    // Stop if we've reached the limit for this position
+                    if ($currentPositionCount >= $allowedVotes) {
+                        break;
+                    }
+                    
+                    $candidacy = null;
+                    $candidateId = null;
+                    
+                    // Check if this is a vote_count or applied_candidacy object
+                    if (isset($candidate->id) && isset($candidate->students_id)) {
+                        // This is from voting_vote_count
+                        $candidateId = $candidate->id;
+                        $candidacy = applied_candidacy::where('students_id', $candidate->students_id)
+                            ->where('status', 'approved')
+                            ->first();
+                    } elseif (isset($candidate->students_id)) {
+                        // This is from applied_candidacy
+                        $candidateId = $candidate->students_id;
+                        $candidacy = $candidate;
+                    }
+                    
+                    // Add to selection if this candidate belongs to the selected partylist
+                    if ($candidacy && $candidacy->partylist_id == $partylistId && $candidateId) {
+                        $this->selectedCandidates[] = $candidateId;
+                        $currentPositionCount++;
+                        $selectedCount++;
+                    }
+                }
+                
+                $this->positionVoteCounts[$positionName] = $currentPositionCount;
+            }
+        }
+        
+        $this->showPartyVotingModal = false;
+        
+        if ($selectedCount > 0) {
+            $partyName = collect($this->availablePartylists)->firstWhere('id', $partylistId)['name'] ?? 'Party';
+            $this->dispatch('show-toast', [
+                'message' => "Selected {$selectedCount} candidate(s) from {$partyName}. You can still modify your selections before submitting.",
+                'type' => 'success',
+                'title' => 'Party Ticket Selected'
+            ]);
+        } else {
+            $this->dispatch('show-toast', [
+                'message' => 'No candidates found for this party in the current election.',
+                'type' => 'warning',
+                'title' => 'No Candidates'
+            ]);
+        }
+        
+        $this->previousSelectedCandidates = $this->selectedCandidates;
     }
 
     /**
