@@ -1,0 +1,1 @@
+document.addEventListener("alpine:init",()=>{Alpine.directive("highlight",(e,{expression:n},{evaluate:t})=>{const i=hljs.highlight(jsBeautify.html(e.innerHTML),{language:"html"}).value;e.innerHTML=i})});

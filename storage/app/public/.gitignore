@@ -1,0 +1,9 @@
+# Ignore all files by default
+*
+
+# But include system settings (logos, etc.)
+!system_settings/
+!system_settings/**
+
+# Keep the .gitignore file
+!.gitignore

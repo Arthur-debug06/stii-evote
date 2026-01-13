@@ -1,0 +1,1 @@
+document.addEventListener("alpine:init",()=>{Alpine.directive("editor",(e,{expression:i},{evaluate:s})=>{e.classList.contains("ck")||CkeditorClassic.create(e).then(t=>{e.parentElement.classList.add("prose","max-w-full")}).catch(t=>{console.error(t)})})});
