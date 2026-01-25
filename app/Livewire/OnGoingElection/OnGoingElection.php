@@ -16,6 +16,7 @@ use App\Models\partylist;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use App\Models\otp;
 
 class OnGoingElection extends Component
 {
@@ -28,6 +29,11 @@ class OnGoingElection extends Component
     public $showWarningModal = false;
     public $warningMessage = '';
     public $showVoteConfirmationModal = false;
+    // Email (Gmail) verification before vote submission
+    public $showEmailVerificationStep = false;
+    public $voteOtpCode = '';
+    public $voteOtpError = '';
+    public $voteOtpSentAt = null;
     // Image modal state
     public $showImageModal = false;
     public $imageModalSrc = null;
@@ -357,11 +363,141 @@ class OnGoingElection extends Component
     public function cancelVote()
     {
         $this->showVoteConfirmationModal = false;
+        $this->showEmailVerificationStep = false;
+        $this->voteOtpCode = '';
+        $this->voteOtpError = '';
+        $this->voteOtpSentAt = null;
     }
 
+    /**
+     * When user clicks Confirm: send OTP to student's email and show verification step.
+     */
     public function confirmVote()
     {
+        $this->sendVoteVerificationOtp();
+    }
+
+    /**
+     * Send 6-digit OTP to the student's email for vote verification.
+     */
+    public function sendVoteVerificationOtp()
+    {
+        if (!$this->currentStudent || !$this->currentStudent->email) {
+            $this->dispatch('show-toast', [
+                'message' => 'No email on file. Please update your profile with a valid email to vote.',
+                'type' => 'error',
+                'title' => 'Email Required'
+            ]);
+            return;
+        }
+
+        $email = $this->currentStudent->email;
+
+        // Remove any existing vote OTP for this email
+        otp::where('email', $email)->where('email_from_id', 'vote')->delete();
+
+        $code = (string) rand(100000, 999999);
+
+        try {
+            otp::create([
+                'email_from_id' => 'vote',
+                'email' => $email,
+                'otp_number' => $code,
+                'status' => 'pending',
+                'expired_at' => Carbon::now()->addMinutes(10),
+            ]);
+
+            Mail::send('emails.vote-verification-otp', [
+                'otp' => $code,
+                'student' => $this->currentStudent,
+            ], function ($m) use ($email) {
+                $m->to($email)->subject('Vote Verification Code - Student Government Election');
+            });
+
+            $this->voteOtpSentAt = Carbon::now()->toDateTimeString();
+            $this->voteOtpError = '';
+            $this->voteOtpCode = '';
+            $this->showEmailVerificationStep = true;
+
+            $this->dispatch('show-toast', [
+                'message' => 'A 6-digit code was sent to ' . substr($email, 0, 3) . '***' . substr($email, strrpos($email, '@')),
+                'type' => 'success',
+                'title' => 'Code Sent'
+            ]);
+        } catch (\Exception $e) {
+            $this->voteOtpError = 'Failed to send code. Please try again.';
+            \Log::error('Vote OTP send failed: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Resend OTP. Throttle: 60 seconds between sends.
+     */
+    public function resendVoteOtp()
+    {
+        if ($this->voteOtpSentAt && Carbon::parse($this->voteOtpSentAt)->diffInSeconds(Carbon::now()) < 60) {
+            $this->dispatch('show-toast', [
+                'message' => 'Please wait 60 seconds before requesting a new code.',
+                'type' => 'warning',
+                'title' => 'Wait'
+            ]);
+            return;
+        }
+        $this->sendVoteVerificationOtp();
+    }
+
+    /**
+     * Go back from OTP step to the vote review step.
+     */
+    public function cancelEmailVerification()
+    {
+        $this->showEmailVerificationStep = false;
+        $this->voteOtpCode = '';
+        $this->voteOtpError = '';
+    }
+
+    /**
+     * Verify the OTP and, if valid, submit the vote.
+     */
+    public function verifyVoteOtpAndSubmit()
+    {
+        $this->voteOtpError = '';
+
+        $v = \Illuminate\Support\Facades\Validator::make(
+            ['otp' => $this->voteOtpCode],
+            ['otp' => 'required|string|size:6|regex:/^[0-9]+$/']
+        );
+        if ($v->fails()) {
+            $this->voteOtpError = 'Please enter a valid 6-digit code.';
+            return;
+        }
+
+        $email = $this->currentStudent->email;
+        $record = otp::where('email', $email)
+            ->where('email_from_id', 'vote')
+            ->where('status', 'pending')
+            ->where('expired_at', '>', Carbon::now())
+            ->first();
+
+        if (!$record) {
+            $this->voteOtpError = 'Code expired or invalid. Please request a new code.';
+            return;
+        }
+
+        if ((string) $record->otp_number !== (string) $this->voteOtpCode) {
+            $this->voteOtpError = 'Invalid code. Please try again.';
+            return;
+        }
+
+        $record->status = 'used';
+        $record->save();
+
         $this->showVoteConfirmationModal = false;
+        $this->showEmailVerificationStep = false;
+        $this->voteOtpCode = '';
+        $this->voteOtpError = '';
+        $this->voteOtpSentAt = null;
+
         $this->submitVote();
     }
 

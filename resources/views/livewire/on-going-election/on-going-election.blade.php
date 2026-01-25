@@ -413,59 +413,92 @@
         </div>
     @endif
 
-    <!-- Vote Confirmation Modal -->
+    <!-- Vote Confirmation Modal (with Gmail/email verification step) -->
     @if($showVoteConfirmationModal)
         <x-menu.modal 
             :showButton="false" 
             modalId="vote-confirmation-modal" 
-            title="Confirm Your Vote" 
-            description="Please review your selections before submitting your vote."
+            :title="$showEmailVerificationStep ? 'Verify Your Email' : 'Confirm Your Vote'" 
+            :description="$showEmailVerificationStep ? 'Enter the 6-digit code sent to your email to confirm and submit your vote.' : 'Please review your selections before submitting your vote.'"
             size="lg"
             :isOpen="$showVoteConfirmationModal">
             
-            <div class="space-y-4">
-                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                    <h4 class="font-medium text-blue-800 mb-2">Your Selected Candidates:</h4>
-                    <div class="space-y-2">
-                        @foreach($activeVotingExclusives as $exclusive)
-                            @foreach($exclusive['candidates_by_position'] as $position => $positionData)
-                                @php
-                                    $selectedInPosition = [];
-                                    foreach($positionData['candidates'] as $candidate) {
-                                        $candidateId = isset($candidate->id) ? $candidate->id : $candidate->students_id;
-                                        if(in_array($candidateId, $selectedCandidates)) {
-                                            $student = isset($candidate->student) ? $candidate->student : $candidate->students;
-                                            $selectedInPosition[] = $student;
+            @if($showEmailVerificationStep)
+                {{-- Gmail/Email verification: OTP step --}}
+                <div class="space-y-4">
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                        <p class="text-sm text-blue-800">
+                            We sent a 6-digit code to <strong>{{ $currentStudent && $currentStudent->email ? substr($currentStudent->email, 0, 3) . '***' . substr($currentStudent->email, strrpos($currentStudent->email, '@')) : 'your email' }}</strong>. Enter it below.
+                        </p>
+                    </div>
+                    <div>
+                        <label for="vote-otp-input" class="block text-sm font-medium text-gray-700 mb-1">Verification code</label>
+                        <input 
+                            type="text" 
+                            id="vote-otp-input"
+                            wire:model="voteOtpCode" 
+                            maxlength="6" 
+                            placeholder="000000"
+                            class="w-full rounded-md border border-gray-300 px-3 py-2 text-center text-lg tracking-widest font-mono focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            inputmode="numeric"
+                            pattern="[0-9]*"
+                            autocomplete="one-time-code"
+                        >
+                        @if($voteOtpError)
+                            <p class="mt-2 text-sm text-red-600">{{ $voteOtpError }}</p>
+                        @endif
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <button type="button" wire:click="resendVoteOtp" class="text-sm text-blue-600 hover:text-blue-800 underline">
+                            Resend code
+                        </button>
+                    </div>
+                </div>
+            @else
+                {{-- Review step: selected candidates --}}
+                <div class="space-y-4">
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                        <h4 class="font-medium text-blue-800 mb-2">Your Selected Candidates:</h4>
+                        <div class="space-y-2">
+                            @foreach($activeVotingExclusives as $exclusive)
+                                @foreach($exclusive['candidates_by_position'] as $position => $positionData)
+                                    @php
+                                        $selectedInPosition = [];
+                                        foreach($positionData['candidates'] as $candidate) {
+                                            $candidateId = isset($candidate->id) ? $candidate->id : $candidate->students_id;
+                                            if(in_array($candidateId, $selectedCandidates)) {
+                                                $student = isset($candidate->student) ? $candidate->student : $candidate->students;
+                                                $selectedInPosition[] = $student;
+                                            }
                                         }
-                                    }
-                                @endphp
-                                @if(count($selectedInPosition) > 0)
-                                    <div class="border-l-4 border-blue-400 pl-3">
-                                        <h5 class="font-medium text-blue-700">{{ $position }}</h5>
-                                        <ul class="text-sm text-blue-600 mt-1">
-                                            @foreach($selectedInPosition as $student)
-                                                <li>• {{ $student->first_name }} {{ $student->last_name }} ({{ $student->student_id }})</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                @endif
+                                    @endphp
+                                    @if(count($selectedInPosition) > 0)
+                                        <div class="border-l-4 border-blue-400 pl-3">
+                                            <h5 class="font-medium text-blue-700">{{ $position }}</h5>
+                                            <ul class="text-sm text-blue-600 mt-1">
+                                                @foreach($selectedInPosition as $student)
+                                                    <li>• {{ $student->first_name }} {{ $student->last_name }} ({{ $student->student_id }})</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
+                                @endforeach
                             @endforeach
-                        @endforeach
-    </div>
-</div>
-
-                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                    <div class="flex items-start">
-                        <svg class="w-5 h-5 text-yellow-600 mt-0.5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-                        </svg>
-                        <div>
-                            <h4 class="font-medium text-yellow-800">Important Notice</h4>
-                            <p class="text-sm text-yellow-700 mt-1">Once you submit your vote, you cannot change your selections. Please make sure you have selected the correct candidates.</p>
+                        </div>
+                    </div>
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                        <div class="flex items-start">
+                            <svg class="w-5 h-5 text-yellow-600 mt-0.5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                            </svg>
+                            <div>
+                                <h4 class="font-medium text-yellow-800">Important Notice</h4>
+                                <p class="text-sm text-yellow-700 mt-1">Once you submit your vote, you cannot change your selections. You will receive a verification code at your registered email before the vote is submitted.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
 
             <x-slot:footer>
                 <button 
@@ -476,13 +509,18 @@
                 >
                     Exit
                 </button>
-                <button 
-                    type="button" 
-                    wire:click="confirmVote" 
-                    class="ml-3 cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-(--color)/20 border-(--color)/60 text-(--color) hover:bg-(--color)/5 [--color:var(--color-primary)] h-10 px-4 py-2 w-24 mx-auto"
-                >
-                    Confirm
-                </button>
+                @if($showEmailVerificationStep)
+                    <button type="button" wire:click="cancelEmailVerification" class="ml-2 cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 text-foreground hover:bg-foreground/5 bg-background border-foreground/20 h-10 px-4 py-2 mx-auto">
+                        Back
+                    </button>
+                    <button type="button" wire:click="verifyVoteOtpAndSubmit" class="ml-2 cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-(--color)/20 border-(--color)/60 text-(--color) hover:bg-(--color)/5 [--color:var(--color-primary)] h-10 px-4 py-2 mx-auto">
+                        Verify & Submit
+                    </button>
+                @else
+                    <button type="button" wire:click="confirmVote" class="ml-3 cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-(--color)/20 border-(--color)/60 text-(--color) hover:bg-(--color)/5 [--color:var(--color-primary)] h-10 px-4 py-2 w-24 mx-auto">
+                        Confirm
+                    </button>
+                @endif
             </x-slot:footer>
         </x-menu.modal>
     @endif
