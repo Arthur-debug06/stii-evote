@@ -43,13 +43,37 @@ if ($mailer === 'resend') {
 if ($mailer === 'resend') {
     echo "2. Testing Resend API...\n";
     try {
+        // Check if Resend class exists
+        if (!class_exists('\Resend\Resend')) {
+            echo "✗ Resend package not found!\n";
+            echo "Run: composer require resend/resend-php\n\n";
+            exit;
+        }
+        
         // Test Resend API connectivity
-        $resend = new \Resend\Resend(env('RESEND_KEY'));
-        echo "✓ Resend API initialized successfully!\n\n";
+        $resendKey = env('RESEND_KEY');
+        
+        // Check for quotes in key
+        if (strpos($resendKey, '"') !== false || strpos($resendKey, "'") !== false) {
+            echo "⚠️  WARNING: RESEND_KEY has quotes!\n";
+            echo "Remove quotes from Railway variable.\n";
+            echo "Should be: re_PEnX5SPj_BGnCdZtRHPqD85YyFHt77Kiv\n";
+            echo "Not: \"re_PEnX5SPj_BGnCdZtRHPqD85YyFHt77Kiv\"\n\n";
+        }
+        
+        $resend = new \Resend\Resend($resendKey);
+        echo "✓ Resend API initialized successfully!\n";
+        echo "✓ API Key valid: " . substr($resendKey, 0, 8) . "..." . substr($resendKey, -4) . "\n\n";
     } catch (\Exception $e) {
         echo "✗ Resend API initialization failed!\n";
-        echo "Error: " . $e->getMessage() . "\n\n";
-        exit;
+        echo "Error: " . $e->getMessage() . "\n";
+        echo "Error Type: " . get_class($e) . "\n\n";
+        
+        if (strpos($e->getMessage(), 'not found') !== false) {
+            echo "Fix: Ensure resend/resend-php is in composer.json\n";
+        }
+        // Don't exit, continue to test email sending
+        echo "\n";
     }
 } else {
     // 2. Check password format (spaces issue)
