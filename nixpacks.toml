@@ -22,6 +22,8 @@ cmds = [
     'php artisan migrate --force',
     'php artisan db:seed --force',
     'php artisan storage:link --force',
+    'chmod -R 775 storage bootstrap/cache',
+    'chmod -R 777 storage/app/public',
     'php artisan route:cache'
 ]
 
