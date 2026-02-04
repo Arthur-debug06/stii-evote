@@ -3,10 +3,12 @@
 namespace App\Livewire\ProfileManagement;
 
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use App\Models\students;
 use App\Models\course;
@@ -18,6 +20,7 @@ use Carbon\Carbon;
 
 class ProfileManagement extends Component
 {
+    use WithFileUploads;
     public $user;
     public $userType;
     
@@ -40,6 +43,8 @@ class ProfileManagement extends Component
     public $address;
     public $profile_image;
     public $student_id_image;
+    public $new_profile_image; // For file upload
+    public $new_student_id_image; // For file upload
     public $course_id;
     public $department_id;
     public $school_year_and_semester_id;
@@ -330,13 +335,25 @@ class ProfileManagement extends Component
             if ($this->userType === 'admin') {
                 $this->validate([
                     'name' => 'required|string|max:255',
+                    'new_profile_image' => 'nullable|image|max:2048',
                 ]);
+
+                $updateData = [
+                    'name' => $this->name,
+                ];
+
+                // Handle profile image upload
+                if ($this->new_profile_image) {
+                    // Delete old image if exists
+                    if ($this->user->profile_image && Storage::disk('public')->exists($this->user->profile_image)) {
+                        Storage::disk('public')->delete($this->user->profile_image);
+                    }
+                    $updateData['profile_image'] = $this->new_profile_image->store('profile_pictures', 'public');
+                }
 
                 // Update admin profile - LoggerTrait will automatically log this change
                 // Note: Role and Status are not editable for security reasons
-                $this->user->update([
-                    'name' => $this->name,
-                ]);
+                $this->user->update($updateData);
             } else {
                 $this->validate([
                     'first_name' => 'required|string|max:255',
@@ -346,10 +363,11 @@ class ProfileManagement extends Component
                     'date_of_birth' => 'required|date',
                     'age' => 'required|integer|min:1|max:120',
                     'address' => 'required|string|max:500',
+                    'new_profile_image' => 'nullable|image|max:2048',
+                    'new_student_id_image' => 'nullable|image|max:2048',
                 ]);
 
-                // Update student profile - LoggerTrait will automatically log this change
-                $this->user->update([
+                $updateData = [
                     'first_name' => $this->first_name,
                     'middle_name' => $this->middle_name,
                     'last_name' => $this->last_name,
@@ -359,7 +377,28 @@ class ProfileManagement extends Component
                     'date_of_birth' => $this->date_of_birth,
                     'age' => $this->age,
                     'address' => $this->address,
-                ]);
+                ];
+
+                // Handle profile image upload
+                if ($this->new_profile_image) {
+                    // Delete old image if exists
+                    if ($this->user->profile_image && Storage::disk('public')->exists($this->user->profile_image)) {
+                        Storage::disk('public')->delete($this->user->profile_image);
+                    }
+                    $updateData['profile_image'] = $this->new_profile_image->store('profile_pictures', 'public');
+                }
+
+                // Handle student ID image upload
+                if ($this->new_student_id_image) {
+                    // Delete old image if exists
+                    if ($this->user->student_id_image && Storage::disk('public')->exists($this->user->student_id_image)) {
+                        Storage::disk('public')->delete($this->user->student_id_image);
+                    }
+                    $updateData['student_id_image'] = $this->new_student_id_image->store('student_id_images', 'public');
+                }
+
+                // Update student profile - LoggerTrait will automatically log this change
+                $this->user->update($updateData);
             }
 
             session()->flash('success', 'Profile updated successfully!');

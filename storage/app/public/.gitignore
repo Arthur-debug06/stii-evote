@@ -5,5 +5,13 @@
 !system_settings/
 !system_settings/**
 
+# Include profile pictures and student ID images
+!profile_pictures/
+!profile_pictures/**
+!student_id_images/
+!student_id_images/**
+!profile_picture/
+!profile_picture/**
+
 # Keep the .gitignore file
 !.gitignore

@@ -389,8 +389,9 @@
                                                                 </div>
                                                         @endif
                                                         <div>
-                                                            <input type="file" accept="image/*" class="text-sm text-gray-500">
+                                                            <input type="file" wire:model="new_profile_image" accept="image/*" class="text-sm text-gray-500">
                                                             <p class="text-xs text-gray-500 mt-1">JPG, PNG or GIF (Max. 2MB)</p>
+                                                            @error('new_profile_image') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                                                             </div>
                                                                 </div>
                                                                 </div>
@@ -513,8 +514,9 @@
                                                                 </div>
                                                         @endif
                                                         <div>
-                                                            <input type="file" accept="image/*" class="text-sm text-gray-500">
+                                                            <input type="file" wire:model="new_profile_image" accept="image/*" class="text-sm text-gray-500">
                                                             <p class="text-xs text-gray-500 mt-1">JPG, PNG or GIF (Max. 2MB)</p>
+                                                            @error('new_profile_image') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                                                                 </div>
                                                             </div>
                                                         </div>

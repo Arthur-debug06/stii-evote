@@ -43,20 +43,20 @@ if ($mailer === 'resend') {
 if ($mailer === 'resend') {
     echo "2. Resend Configuration Check...\n";
     $resendKey = env('RESEND_KEY');
-    
+
     if (!$resendKey) {
         echo "✗ RESEND_KEY not set!\n\n";
     } else {
         echo "✓ RESEND_KEY is configured\n";
         echo "✓ Length: " . strlen($resendKey) . " chars\n";
-        
+
         // Check for quotes
         if (strpos($resendKey, '"') !== false || strpos($resendKey, "'") !== false) {
             echo "⚠️  WARNING: RESEND_KEY has quotes - remove them!\n";
         } else {
             echo "✓ No quotes detected\n";
         }
-        
+
         // Check key format
         if (strpos($resendKey, 're_') === 0) {
             echo "✓ Key format looks correct (starts with re_)\n";
