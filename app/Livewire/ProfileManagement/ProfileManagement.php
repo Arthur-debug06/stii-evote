@@ -23,13 +23,13 @@ class ProfileManagement extends Component
     use WithFileUploads;
     public $user;
     public $userType;
-    
+
     // Form properties for editing (dynamic based on user model)
     // User model fields
     public $name;
     public $email;
     // Note: Role and Status are not editable for security reasons
-    
+
     // Students model fields
     public $student_id;
     public $first_name;
@@ -48,17 +48,17 @@ class ProfileManagement extends Component
     public $course_id;
     public $department_id;
     public $school_year_and_semester_id;
-    
+
     // Password change fields
     public $current_password;
     public $new_password;
     public $confirm_password;
-    
+
     // Password visibility states
     public $show_current_password = false;
     public $show_new_password = false;
     public $show_confirm_password = false;
-    
+
     // OTP verification properties
     public $showOtpModal = false;
     public $otpCode = '';
@@ -70,7 +70,7 @@ class ProfileManagement extends Component
     {
         // Check both guards to get the authenticated user
         $this->user = Auth::guard('web')->user() ?? Auth::guard('students')->user();
-        
+
         // Determine user type and load relationships
         if ($this->user instanceof User) {
             $this->userType = 'admin';
@@ -103,7 +103,7 @@ class ProfileManagement extends Component
         } else {
             $this->userType = 'unknown';
         }
-        
+
         // Log profile access
         if ($this->user) {
             $this->logProfileActivity('profile_accessed', [
@@ -118,27 +118,27 @@ class ProfileManagement extends Component
     {
         return course::all();
     }
-    
+
     public function getDepartments()
     {
         return department::all();
     }
-    
+
     public function getSchoolYearSemesters()
     {
         return school_year_and_semester::all();
     }
-    
+
     public function toggleCurrentPasswordVisibility()
     {
         $this->show_current_password = !$this->show_current_password;
     }
-    
+
     public function toggleNewPasswordVisibility()
     {
         $this->show_new_password = !$this->show_new_password;
     }
-    
+
     public function toggleConfirmPasswordVisibility()
     {
         $this->show_confirm_password = !$this->show_confirm_password;
@@ -165,14 +165,14 @@ class ProfileManagement extends Component
             ];
             $this->changeType = 'password';
             $this->originalEmail = $this->user->email;
-            
+
             $this->sendOtp();
-            
+
         } catch (\Exception $e) {
             session()->flash('error', 'Failed to change password: ' . $e->getMessage());
         }
     }
-    
+
     public function updateProfile()
     {
         // Check if email is being changed
@@ -182,36 +182,36 @@ class ProfileManagement extends Component
         } elseif ($this->userType === 'student' && $this->email !== $this->user->email) {
             $emailChanged = true;
         }
-        
+
         if ($emailChanged) {
             // Validate email change
             $this->validate([
                 'email' => 'required|email|unique:users,email,' . $this->user->id . '|unique:students,email,' . $this->user->id,
             ]);
-            
+
             // Store pending changes and send OTP
             $this->pendingChanges = [
                 'email' => $this->email,
             ];
             $this->changeType = 'email';
             $this->originalEmail = $this->user->email;
-            
+
             $this->sendOtp();
         } else {
             // Regular profile update without OTP
             $this->performProfileUpdate();
         }
     }
-    
+
     public function sendOtp()
     {
         try {
             // Generate 6-digit OTP
             $otp = rand(100000, 999999);
-            
+
             // Delete any existing OTP for this email
             otp::where('email', $this->originalEmail)->delete();
-            
+
             // Store OTP in database
             $otpRecord = otp::create([
                 'email_from_id' => $this->userType === 'admin' ? 'User' : 'students',
@@ -231,23 +231,23 @@ class ProfileManagement extends Component
             // Send OTP via email
             Mail::send('emails.otp', ['otp' => $otp, 'user' => $this->user], function ($message) {
                 $message->to($this->originalEmail)
-                        ->subject('Profile Change Verification - Voting System');
+                    ->subject('Profile Change Verification - Voting System');
             });
 
             // Show OTP modal
             $this->showOtpModal = true;
             $this->otpCode = '';
-            
+
             // Dispatch event to focus OTP input
             $this->dispatch('otp-modal-opened');
-            
+
             session()->flash('success', 'OTP has been sent to your email address. Please verify to complete the change.');
-            
+
         } catch (\Exception $e) {
             session()->flash('error', 'Failed to send OTP. Please try again. Error: ' . $e->getMessage());
         }
     }
-    
+
     public function verifyOtp()
     {
         $this->validate([
@@ -257,10 +257,10 @@ class ProfileManagement extends Component
         try {
             // Find the OTP record
             $otpRecord = otp::where('email', $this->originalEmail)
-                           ->where('otp_number', $this->otpCode)
-                           ->where('status', 'pending')
-                           ->where('expired_at', '>', Carbon::now())
-                           ->first();
+                ->where('otp_number', $this->otpCode)
+                ->where('status', 'pending')
+                ->where('expired_at', '>', Carbon::now())
+                ->first();
 
             if (!$otpRecord) {
                 // Log failed OTP attempt
@@ -270,7 +270,7 @@ class ProfileManagement extends Component
                     'otp_code' => $this->otpCode,
                     'reason' => 'Invalid or expired OTP'
                 ]);
-                
+
                 session()->flash('error', 'Invalid or expired OTP. Please try again.');
                 return;
             }
@@ -287,7 +287,7 @@ class ProfileManagement extends Component
 
             // Store change type before resetting
             $changeType = $this->changeType;
-            
+
             // Perform the pending changes
             $this->performPendingChanges();
 
@@ -300,19 +300,19 @@ class ProfileManagement extends Component
 
             $successMessage = $changeType === 'password' ? 'Password changed successfully!' : 'Profile updated successfully!';
             session()->flash('success', $successMessage);
-            
+
         } catch (\Exception $e) {
             session()->flash('error', 'Failed to verify OTP: ' . $e->getMessage());
         }
     }
-    
+
     public function performPendingChanges()
     {
         try {
             if ($this->changeType === 'password') {
                 // Update password - LoggerTrait will automatically log this change
                 $this->user->update($this->pendingChanges);
-                
+
                 // Clear password fields and reset visibility
                 $this->current_password = '';
                 $this->new_password = '';
@@ -328,7 +328,7 @@ class ProfileManagement extends Component
             session()->flash('error', 'Failed to update profile: ' . $e->getMessage());
         }
     }
-    
+
     public function performProfileUpdate()
     {
         try {
@@ -406,7 +406,7 @@ class ProfileManagement extends Component
             session()->flash('error', 'Failed to update profile: ' . $e->getMessage());
         }
     }
-    
+
     public function cancelOtpVerification()
     {
         $this->showOtpModal = false;
@@ -414,7 +414,7 @@ class ProfileManagement extends Component
         $this->pendingChanges = [];
         $this->changeType = '';
         $this->originalEmail = '';
-        
+
         // Clear password fields if it was a password change
         if ($this->changeType === 'password') {
             $this->current_password = '';
@@ -422,7 +422,7 @@ class ProfileManagement extends Component
             $this->confirm_password = '';
         }
     }
-    
+
     /**
      * Log profile-related activities manually
      */
@@ -431,7 +431,7 @@ class ProfileManagement extends Component
         try {
             $userId = null;
             $userType = 'unknown';
-            
+
             // Get current user ID from either guard
             if (Auth::guard('web')->check()) {
                 $userId = Auth::guard('web')->id();
@@ -440,7 +440,7 @@ class ProfileManagement extends Component
                 $userId = Auth::guard('students')->id();
                 $userType = 'student';
             }
-            
+
             ActionLog::create([
                 'document_type' => get_class($this->user),
                 'document_id' => $this->user->id,
@@ -464,7 +464,7 @@ class ProfileManagement extends Component
             \Log::error('Failed to log profile activity: ' . $e->getMessage());
         }
     }
-    
+
     /**
      * Get recent activity logs for the current user
      */
@@ -473,14 +473,14 @@ class ProfileManagement extends Component
         if (!$this->user) {
             return collect();
         }
-        
+
         return ActionLog::where('trackable_type', get_class($this->user))
             ->where('trackable_id', $this->user->id)
             ->orderBy('created_at', 'desc')
             ->limit($limit)
             ->get();
     }
-    
+
 
     public function render()
     {

@@ -1,12 +1,16 @@
 <div>
-    <h2 class="mt-10 text-lg font-medium">On Going Election for {{ $currentStudent ? ($currentStudent->department->department_name ?? 'All Departments') : 'All Departments' }} / STSG</h2>
+    <h2 class="mt-10 text-lg font-medium">On Going Election for
+        {{ $currentStudent ? ($currentStudent->department->department_name ?? 'All Departments') : 'All Departments' }}
+        / STSG</h2>
 
     @if($currentStudent)
         <div class="mt-4 bg-gray-50 border border-gray-200 rounded-lg p-4">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-3">
                     <div class="flex items-center gap-2 text-gray-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="w-5 h-5">
                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                             <circle cx="12" cy="7" r="4"></circle>
                         </svg>
@@ -14,29 +18,39 @@
                         <!-- <span class="text-sm text-gray-500">({{ $currentStudent->student_id }})</span> -->
                     </div>
                     <div class="text-sm text-gray-600">
-                        {{ $currentStudent->course->course_name ?? 'N/A' }} - {{ $currentStudent->department->department_name ?? 'N/A' }}
+                        {{ $currentStudent->course->course_name ?? 'N/A' }} -
+                        {{ $currentStudent->department->department_name ?? 'N/A' }}
                     </div>
                 </div>
                 <div class="flex items-center gap-2">
                     @if($canVote)
-                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        <span
+                            class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                             <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
                             </svg>
                             Can Vote
                         </span>
                     @elseif($canViewCandidates)
-                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        <span
+                            class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                             <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
-                                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd"
+                                    d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+                                    clip-rule="evenodd"></path>
                             </svg>
                             View Only
                         </span>
                     @else
-                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                        <span
+                            class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
                             <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd"
+                                    d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z"
+                                    clip-rule="evenodd"></path>
                             </svg>
                             No Access
                         </span>
@@ -49,11 +63,15 @@
     @if(isset($upcomingVoting) && $upcomingVoting)
         <div class="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
             <div class="flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600 mr-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="text-blue-600 mr-2">
                     <path d="M12 2a10 10 0 100 20 10 10 0 000-20z"></path>
                 </svg>
                 <div class="text-sm text-blue-800">
-                    <strong>Upcoming Election:</strong> Voting is scheduled from {{ \Carbon\Carbon::parse($upcomingVoting->start_datetime)->format('M d, Y \a\t h:i A') }} to {{ \Carbon\Carbon::parse($upcomingVoting->end_datetime)->format('M d, Y \a\t h:i A') }}.
+                    <strong>Upcoming Election:</strong> Voting is scheduled from
+                    {{ \Carbon\Carbon::parse($upcomingVoting->start_datetime)->format('M d, Y \a\t h:i A') }} to
+                    {{ \Carbon\Carbon::parse($upcomingVoting->end_datetime)->format('M d, Y \a\t h:i A') }}.
                 </div>
             </div>
         </div>
@@ -76,7 +94,7 @@
             </div> -->
         </div>
         <!-- BEGIN: Data List -->
-        
+
         @if(count($activeVotingExclusives) > 0)
             @foreach($activeVotingExclusives as $exclusive)
                 @if(count($exclusive['candidates_by_position']) > 0)
@@ -86,151 +104,192 @@
                             <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
                                 <h3 class="text-lg font-semibold text-blue-800">{{ $position }}</h3>
                                 <p class="text-sm text-blue-600">
-                                    You can vote for up to <strong>{{ $positionData['allowed_votes'] }}</strong> candidate(s) for this position.
+                                    You can vote for up to <strong>{{ $positionData['allowed_votes'] }}</strong> candidate(s) for this
+                                    position.
                                     @if(isset($positionVoteCounts[$position]) && $positionVoteCounts[$position] > 0)
                                         <span class="text-green-600">(Currently selected: {{ $positionVoteCounts[$position] }})</span>
                                     @endif
                                 </p>
-                        </div>
+                            </div>
                         </div>
                         @foreach($positionData['candidates'] as $candidate)
                             @php
-                                    $candidateId = isset($candidate->id) ? $candidate->id : $candidate->students_id;
-                                    $student = isset($candidate->student) ? $candidate->student : $candidate->students;
-                                    $voteCount = isset($candidate->number_of_vote) ? $candidate->number_of_vote : 0;
-                                    $status = isset($candidate->status) ? $candidate->status : 'unknown';
-                                    // Ensure $student is not null to avoid errors
-                                    if (!$student) {
-                                        // Optionally, you can skip rendering this candidate or set default values
-                                        continue;
-                                    }
-                                @endphp
-
-                            {{-- Server-side filtered: only candidates relevant to the logged-in student (or general) are provided by the component --}}
-
-            <div class="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3">
-            <div class="box relative before:absolute before:inset-0 before:mx-3 before:-mb-3 before:border before:border-foreground/10 before:bg-background/30 before:shadow-[0px_3px_5px_#0000000b] before:z-[-1] before:rounded-xl after:absolute after:inset-0 after:border after:border-foreground/10 after:bg-background after:shadow-[0px_3px_5px_#0000000b] after:rounded-xl after:z-[-1] after:backdrop-blur-md p-0">
-                <div class="p-5">
-                    <div class="image-fit h-40 overflow-hidden rounded-lg before:absolute before:left-0 before:top-0 before:z-10 before:block before:h-full before:w-full before:bg-gradient-to-t before:from-black before:to-black/10 2xl:h-56">
-                                            @php
-                                        $imageSrc = asset('images/placeholders/placeholder.jpg'); // Default placeholder
-
-                                        // Prefer explicit DB paths using route-based serving
-                                        if (!empty($student->profile_image) && \Illuminate\Support\Facades\Storage::disk('public')->exists($student->profile_image)) {
-                                            $imageSrc = route('public.file', ['path' => $student->profile_image]);
-                                        } elseif (!empty($student->student_id_image) && \Illuminate\Support\Facades\Storage::disk('public')->exists($student->student_id_image)) {
-                                            $imageSrc = route('public.file', ['path' => $student->student_id_image]);
-                                        } else {
-                                            // Fallback: try to discover by pattern in student_images directory
-                                            $studentImagesPath = storage_path('app/public/student_images/');
-
-                                            // Look for profile images with the student's numeric PK or identifier in filename
-                                            $profilePattern = $studentImagesPath . '*_profile_*' . $student->id . '*';
-                                            $profileFiles = glob($profilePattern);
-
-                                            if (!empty($profileFiles)) {
-                                                $profileFile = basename($profileFiles[0]);
-                                                $imageSrc = route('public.file', ['path' => 'student_images/' . $profileFile]);
-                                            } else {
-                                                // Look for ID images as fallback
-                                                $idPattern = $studentImagesPath . '*_id_*' . $student->id . '*';
-                                                $idFiles = glob($idPattern);
-
-                                                if (!empty($idFiles)) {
-                                                    $idFile = basename($idFiles[0]);
-                                                    $imageSrc = route('public.file', ['path' => 'student_images/' . $idFile]);
-                                                }
-                                            }
-                                        }
-                                    @endphp
-                                            <a href="#" wire:click.prevent="openImageModal('{{ $imageSrc }}')" aria-label="Open candidate image" class="relative z-20 block w-full h-full">
-                                                <img class="w-full h-full object-cover rounded-lg" src="{{ $imageSrc }}" alt="Candidate Photo" loading="lazy">
-                                            </a>
-                        <div class="flex cursor-pointer items-center rounded-full border px-2 py-px text-xs border-(--color-pending) bg-(--color-pending)/70 absolute top-0 z-10 m-5 text-white [--color:var(--color-pending)]">
-                                                {{ $position }}
-                        </div>
-                        <div class="absolute bottom-0 z-10 px-5 pb-6 text-white">
-                            <a class="block text-base font-medium" href="">
-                                                    {{ $student->first_name }} {{ $student->last_name }}
-                            </a>
-                            <span class="mt-3 text-xs opacity-70">
-                                                    {{ $student->course->course_name ?? 'N/A' }} - {{ $student->department->department_name ?? 'N/A' }}
-                                                    {{-- Candidate belongs to this election (department/general) --}}
-                            </span>
-                        </div>
-                    </div>
-                    <div class="mt-5 opacity-70">
-                        <div class="mt-2 flex items-center">
-							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="badge" class="lucide lucide-badge size-4 stroke-[1.5] [--color:currentColor] stroke-(--color) fill-(--color)/25 mr-2 h-4 w-4"><path d="M3 7v10a2 2 0 0 0 2 2h3l2 2 2-2h3a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2Z"></path></svg>
-							<span class="text-sm">Name: </span>
-							<span class="ml-1 text-sm font-medium">{{ $student->first_name }} {{ $student->last_name }}</span>
-						</div>
-						<div class="mt-2 flex items-center">
-							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="book" class="lucide lucide-book size-4 stroke-[1.5] [--color:currentColor] stroke-(--color) fill-(--color)/25 mr-2 h-4 w-4"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-							<span class="text-sm">Course: </span>
-							<span class="ml-1 text-sm font-medium">{{ $student->course->course_name ?? 'N/A' }}</span>
-						</div>
-						<div class="mt-2 flex items-center">
-							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="building" class="lucide lucide-building size-4 stroke-[1.5] [--color:currentColor] stroke-(--color) fill-(--color)/25 mr-2 h-4 w-4"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><path d="M9 22v-4h6v4"></path><path d="M8 6h.01"></path><path d="M16 6h.01"></path><path d="M12 6h.01"></path><path d="M12 10h.01"></path><path d="M12 14h.01"></path><path d="M16 10h.01"></path><path d="M16 14h.01"></path><path d="M8 10h.01"></path><path d="M8 14h.01"></path></svg>
-							<span class="text-sm">Department: </span>
-							<span class="ml-1 text-sm font-medium">{{ $student->department->department_name ?? 'N/A' }}</span>
-						</div>
-                        @php
-                            $partylistName = optional(optional($candidate->appliedCandidacy)->partylist)->partylist_name;
-                            if (!$partylistName) {
-                                // Try to get from applied_candidacy if candidate is from that model
-                                if ($candidate instanceof \App\Models\applied_candidacy) {
-                                    $partylistName = optional($candidate->partylist)->partylist_name;
+                                $candidateId = isset($candidate->id) ? $candidate->id : $candidate->students_id;
+                                $student = isset($candidate->student) ? $candidate->student : $candidate->students;
+                                $voteCount = isset($candidate->number_of_vote) ? $candidate->number_of_vote : 0;
+                                $status = isset($candidate->status) ? $candidate->status : 'unknown';
+                                // Ensure $student is not null to avoid errors
+                                if (!$student) {
+                                    // Optionally, you can skip rendering this candidate or set default values
+                                    continue;
                                 }
-                            }
-                        @endphp
-                        @if($partylistName)
-                            <div class="mt-2 flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="users" class="lucide lucide-users size-4 stroke-[1.5] [--color:currentColor] stroke-(--color) fill-(--color)/25 mr-2 h-4 w-4"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                                <span class="text-sm">Party: </span>
-                                <span class="ml-1 text-sm font-medium">{{ $partylistName }}</span>
+                            @endphp
+
+                            {{-- Server-side filtered: only candidates relevant to the logged-in student (or general) are provided by the
+                            component --}}
+
+                            <div class="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3">
+                                <div
+                                    class="box relative before:absolute before:inset-0 before:mx-3 before:-mb-3 before:border before:border-foreground/10 before:bg-background/30 before:shadow-[0px_3px_5px_#0000000b] before:z-[-1] before:rounded-xl after:absolute after:inset-0 after:border after:border-foreground/10 after:bg-background after:shadow-[0px_3px_5px_#0000000b] after:rounded-xl after:z-[-1] after:backdrop-blur-md p-0">
+                                    <div class="p-5">
+                                        <div
+                                            class="image-fit h-40 overflow-hidden rounded-lg before:absolute before:left-0 before:top-0 before:z-10 before:block before:h-full before:w-full before:bg-gradient-to-t before:from-black before:to-black/10 2xl:h-56">
+                                            @php
+                                                $imageSrc = asset('images/placeholders/placeholder.jpg'); // Default placeholder
+
+                                                // Prefer explicit DB paths using route-based serving
+                                                if (!empty($student->profile_image) && \Illuminate\Support\Facades\Storage::disk('public')->exists($student->profile_image)) {
+                                                    $imageSrc = route('public.file', ['path' => $student->profile_image]);
+                                                } elseif (!empty($student->student_id_image) && \Illuminate\Support\Facades\Storage::disk('public')->exists($student->student_id_image)) {
+                                                    $imageSrc = route('public.file', ['path' => $student->student_id_image]);
+                                                } else {
+                                                    // Fallback: try to discover by pattern in student_images directory
+                                                    $studentImagesPath = storage_path('app/public/student_images/');
+
+                                                    // Look for profile images with the student's numeric PK or identifier in filename
+                                                    $profilePattern = $studentImagesPath . '*_profile_*' . $student->id . '*';
+                                                    $profileFiles = glob($profilePattern);
+
+                                                    if (!empty($profileFiles)) {
+                                                        $profileFile = basename($profileFiles[0]);
+                                                        $imageSrc = route('public.file', ['path' => 'student_images/' . $profileFile]);
+                                                    } else {
+                                                        // Look for ID images as fallback
+                                                        $idPattern = $studentImagesPath . '*_id_*' . $student->id . '*';
+                                                        $idFiles = glob($idPattern);
+
+                                                        if (!empty($idFiles)) {
+                                                            $idFile = basename($idFiles[0]);
+                                                            $imageSrc = route('public.file', ['path' => 'student_images/' . $idFile]);
+                                                        }
+                                                    }
+                                                }
+                                            @endphp
+                                            <a href="#" wire:click.prevent="openImageModal('{{ $imageSrc }}')"
+                                                aria-label="Open candidate image" class="relative z-20 block w-full h-full">
+                                                <img class="w-full h-full object-cover rounded-lg" src="{{ $imageSrc }}"
+                                                    alt="Candidate Photo" loading="lazy">
+                                            </a>
+                                            <div
+                                                class="flex cursor-pointer items-center rounded-full border px-2 py-px text-xs border-(--color-pending) bg-(--color-pending)/70 absolute top-0 z-10 m-5 text-white [--color:var(--color-pending)]">
+                                                {{ $position }}
+                                            </div>
+                                            <div class="absolute bottom-0 z-10 px-5 pb-6 text-white">
+                                                <a class="block text-base font-medium" href="">
+                                                    {{ $student->first_name }} {{ $student->last_name }}
+                                                </a>
+                                                <span class="mt-3 text-xs opacity-70">
+                                                    {{ $student->course->course_name ?? 'N/A' }} -
+                                                    {{ $student->department->department_name ?? 'N/A' }}
+                                                    {{-- Candidate belongs to this election (department/general) --}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="mt-5 opacity-70">
+                                            <div class="mt-2 flex items-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round" data-lucide="badge"
+                                                    class="lucide lucide-badge size-4 stroke-[1.5] [--color:currentColor] stroke-(--color) fill-(--color)/25 mr-2 h-4 w-4">
+                                                    <path
+                                                        d="M3 7v10a2 2 0 0 0 2 2h3l2 2 2-2h3a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2Z">
+                                                    </path>
+                                                </svg>
+                                                <span class="text-sm">Name: </span>
+                                                <span class="ml-1 text-sm font-medium">{{ $student->first_name }}
+                                                    {{ $student->last_name }}</span>
+                                            </div>
+                                            <div class="mt-2 flex items-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round" data-lucide="book"
+                                                    class="lucide lucide-book size-4 stroke-[1.5] [--color:currentColor] stroke-(--color) fill-(--color)/25 mr-2 h-4 w-4">
+                                                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                                </svg>
+                                                <span class="text-sm">Course: </span>
+                                                <span class="ml-1 text-sm font-medium">{{ $student->course->course_name ?? 'N/A' }}</span>
+                                            </div>
+                                            <div class="mt-2 flex items-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round" data-lucide="building"
+                                                    class="lucide lucide-building size-4 stroke-[1.5] [--color:currentColor] stroke-(--color) fill-(--color)/25 mr-2 h-4 w-4">
+                                                    <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
+                                                    <path d="M9 22v-4h6v4"></path>
+                                                    <path d="M8 6h.01"></path>
+                                                    <path d="M16 6h.01"></path>
+                                                    <path d="M12 6h.01"></path>
+                                                    <path d="M12 10h.01"></path>
+                                                    <path d="M12 14h.01"></path>
+                                                    <path d="M16 10h.01"></path>
+                                                    <path d="M16 14h.01"></path>
+                                                    <path d="M8 10h.01"></path>
+                                                    <path d="M8 14h.01"></path>
+                                                </svg>
+                                                <span class="text-sm">Department: </span>
+                                                <span
+                                                    class="ml-1 text-sm font-medium">{{ $student->department->department_name ?? 'N/A' }}</span>
+                                            </div>
+                                            @php
+                                                $partylistName = optional(optional($candidate->appliedCandidacy)->partylist)->partylist_name;
+                                                if (!$partylistName) {
+                                                    // Try to get from applied_candidacy if candidate is from that model
+                                                    if ($candidate instanceof \App\Models\applied_candidacy) {
+                                                        $partylistName = optional($candidate->partylist)->partylist_name;
+                                                    }
+                                                }
+                                            @endphp
+                                            @if($partylistName)
+                                                <div class="mt-2 flex items-center">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                        stroke-linejoin="round" data-lucide="users"
+                                                        class="lucide lucide-users size-4 stroke-[1.5] [--color:currentColor] stroke-(--color) fill-(--color)/25 mr-2 h-4 w-4">
+                                                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                                                        <circle cx="9" cy="7" r="4" />
+                                                        <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                                                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                                                    </svg>
+                                                    <span class="text-sm">Party: </span>
+                                                    <span class="ml-1 text-sm font-medium">{{ $partylistName }}</span>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    @if($this->canVoteInExclusive($exclusive))
+                                        <div class="flex items-center justify-center border-t p-5 lg:justify-end">
+                                            <input type="checkbox" wire:model="selectedCandidates" value="{{ $candidateId }}"
+                                                class="mr-3 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                                                id="candidate_{{ $candidateId }}" @if(!$this->canSelectCandidate($candidateId, $position))
+                                                disabled @endif wire:change="$refresh">
+                                            @if(!$this->canSelectCandidate($candidateId, $position) && !in_array($candidateId, $selectedCandidates))
+                                                <span class="text-xs text-red-500 ml-2">Max {{ $positionData['allowed_votes'] }} vote(s) for
+                                                    {{ $position }}</span>
+                                            @endif
+                                        </div>
+                                    @else
+                                        <div class="flex items-center justify-center border-t p-5 lg:justify-end">
+                                            <div class="text-center">
+                                                <div class="text-sm text-gray-500 mb-2">
+                                                    @if($exclusive['department_id'] && $exclusive['course_id'])
+                                                        <span class="text-blue-600">View Only</span>
+                                                        <br>
+                                                        <span class="text-xs">This election is for {{ $exclusive['course'] }} students only</span>
+                                                    @elseif($exclusive['department_id'] && !$exclusive['course_id'])
+                                                        <span class="text-blue-600">View Only</span>
+                                                        <br>
+                                                        <span class="text-xs">This election is for {{ $exclusive['department'] }} students
+                                                            only</span>
+                                                    @else
+                                                        <span class="text-gray-400">View Only</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
                             </div>
-                        @endif
-                    </div>
-                </div>
-                @if($this->canVoteInExclusive($exclusive))
-                    <div class="flex items-center justify-center border-t p-5 lg:justify-end">
-                        <input 
-                            type="checkbox" 
-                            wire:model="selectedCandidates" 
-                            value="{{ $candidateId }}"
-                            class="mr-3 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                            id="candidate_{{ $candidateId }}"
-                            @if(!$this->canSelectCandidate($candidateId, $position))
-                                disabled
-                            @endif
-                            wire:change="$refresh"
-                        >
-                        @if(!$this->canSelectCandidate($candidateId, $position) && !in_array($candidateId, $selectedCandidates))
-                            <span class="text-xs text-red-500 ml-2">Max {{ $positionData['allowed_votes'] }} vote(s) for {{ $position }}</span>
-                        @endif
-                    </div>
-                @else
-                    <div class="flex items-center justify-center border-t p-5 lg:justify-end">
-                        <div class="text-center">
-                            <div class="text-sm text-gray-500 mb-2">
-                                @if($exclusive['department_id'] && $exclusive['course_id'])
-                                    <span class="text-blue-600">View Only</span>
-                                    <br>
-                                    <span class="text-xs">This election is for {{ $exclusive['course'] }} students only</span>
-                                @elseif($exclusive['department_id'] && !$exclusive['course_id'])
-                                    <span class="text-blue-600">View Only</span>
-                                    <br>
-                                    <span class="text-xs">This election is for {{ $exclusive['department'] }} students only</span>
-                                @else
-                                    <span class="text-gray-400">View Only</span>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                @endif
-            </div>
-        </div>
                         @endforeach
                     @endforeach
                 @endif
@@ -239,24 +298,24 @@
             <div class="col-span-12 text-center py-12">
                 <div class="mx-auto h-12 w-12 text-gray-400">
                     <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
                 </div>
                 <h3 class="mt-2 text-sm font-medium text-gray-900">No Active Elections</h3>
                 <p class="mt-1 text-sm text-gray-500">There are currently no active voting periods.</p>
             </div>
         @endif
-        
+
         @if(count($activeVotingExclusives) > 0 && $canVote)
             <div class="col-span-12 flex justify-between mt-6">
                 <div>
                     @if(!$hasVoted && count($availablePartylists) > 0)
-                        <button 
-                            type="button" 
-                            wire:click="showPartyVotingOptions"
-                            class="cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-purple-100 border-purple-300 text-purple-700 hover:bg-purple-200 h-10 px-4 py-2 box"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+                        <button type="button" wire:click="showPartyVotingOptions"
+                            class="cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-purple-100 border-purple-300 text-purple-700 hover:bg-purple-200 h-10 px-4 py-2 box">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                class="w-4 h-4">
                                 <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
                                 <circle cx="9" cy="7" r="4"></circle>
                                 <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
@@ -267,54 +326,64 @@
                     @endif
                 </div>
                 <div>
-                @if($hasVoted)
-                    <div class="flex items-center gap-3">
-                        <div class="flex items-center gap-2 text-green-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
-                                <path d="M9 12l2 2 4-4"></path>
-                                <path d="M21 12c.552 0 1-.448 1-1V8c0-.552-.448-1-1-1h-3.5l-1-1h-5l-1 1H3c-.552 0-1 .448-1 1v3c0 .552.448 1 1 1h18z"></path>
-                            </svg>
-                            <span class="font-medium">You have already voted!</span>
+                    @if($hasVoted)
+                        <div class="flex items-center gap-3">
+                            <div class="flex items-center gap-2 text-green-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    class="w-5 h-5">
+                                    <path d="M9 12l2 2 4-4"></path>
+                                    <path
+                                        d="M21 12c.552 0 1-.448 1-1V8c0-.552-.448-1-1-1h-3.5l-1-1h-5l-1 1H3c-.552 0-1 .448-1 1v3c0 .552.448 1 1 1h18z">
+                                    </path>
+                                </svg>
+                                <span class="font-medium">You have already voted!</span>
+                            </div>
+                            <button type="button" disabled
+                                class="cursor-not-allowed inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-gray-300 border-gray-300 text-gray-500 h-10 px-4 py-2 box">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    data-lucide="vote"
+                                    class="lucide lucide-vote size-4 stroke-[1.5] [--color:currentColor] stroke-(--color) fill-(--color)/25">
+                                    <path d="M9 12l2 2 4-4"></path>
+                                    <path
+                                        d="M21 12c.552 0 1-.448 1-1V8c0-.552-.448-1-1-1h-3.5l-1-1h-5l-1 1H3c-.552 0-1 .448-1 1v3c0 .552.448 1 1 1h18z">
+                                    </path>
+                                </svg>
+                                Submit Vote
+                            </button>
                         </div>
-                        <button 
-                            type="button" 
-                            disabled
-                            class="cursor-not-allowed inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-gray-300 border-gray-300 text-gray-500 h-10 px-4 py-2 box"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="vote" class="lucide lucide-vote size-4 stroke-[1.5] [--color:currentColor] stroke-(--color) fill-(--color)/25">
+                    @else
+                        <button type="button" wire:click="showVoteConfirmation"
+                            class="cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-(--color)/20 border-(--color)/60 text-(--color) hover:bg-(--color)/5 [--color:var(--color-primary)] h-10 px-4 py-2 box">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                data-lucide="vote"
+                                class="lucide lucide-vote size-4 stroke-[1.5] [--color:currentColor] stroke-(--color) fill-(--color)/25">
                                 <path d="M9 12l2 2 4-4"></path>
-                                <path d="M21 12c.552 0 1-.448 1-1V8c0-.552-.448-1-1-1h-3.5l-1-1h-5l-1 1H3c-.552 0-1 .448-1 1v3c0 .552.448 1 1 1h18z"></path>
+                                <path
+                                    d="M21 12c.552 0 1-.448 1-1V8c0-.552-.448-1-1-1h-3.5l-1-1h-5l-1 1H3c-.552 0-1 .448-1 1v3c0 .552.448 1 1 1h18z">
+                                </path>
                             </svg>
                             Submit Vote
                         </button>
-                    </div>
-                @else
-                    <button 
-                        type="button" 
-                        wire:click="showVoteConfirmation"
-                        class="cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-(--color)/20 border-(--color)/60 text-(--color) hover:bg-(--color)/5 [--color:var(--color-primary)] h-10 px-4 py-2 box"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="vote" class="lucide lucide-vote size-4 stroke-[1.5] [--color:currentColor] stroke-(--color) fill-(--color)/25">
-                            <path d="M9 12l2 2 4-4"></path>
-                            <path d="M21 12c.552 0 1-.448 1-1V8c0-.552-.448-1-1-1h-3.5l-1-1h-5l-1 1H3c-.552 0-1 .448-1 1v3c0 .552.448 1 1 1h18z"></path>
-                        </svg>
-                        Submit Vote
-                    </button>
-                @endif
+                    @endif
                 </div>
             </div>
         @elseif(count($activeVotingExclusives) > 0 && !$canVote && $canViewCandidates)
             <div class="col-span-12 flex justify-center mt-6">
                 <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
                     <div class="flex items-center justify-center gap-2 text-blue-600 mb-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="w-5 h-5">
                             <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
                             <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
                         </svg>
                         <span class="font-medium">View Only Mode</span>
                     </div>
                     <p class="text-sm text-blue-600">
-                        You can view the candidates but cannot vote in this election. 
+                        You can view the candidates but cannot vote in this election.
                         This election has specific department/course restrictions.
                     </p>
                 </div>
@@ -322,78 +391,114 @@
         @endif
         </form>
         <!-- END: Data List -->
-    <!-- BEGIN: Pagination -->
-    @if($enablePagination)
-    <div class="col-span-12 flex flex-wrap items-center sm:flex-row sm:flex-nowrap">
-            <nav class="w-full sm:mr-auto sm:w-auto">
-                <ul class="mr-0 flex w-full gap-1 sm:mr-auto sm:w-auto">
-                    <li class="flex-1 sm:flex-initial">
-                        <a class="[--color:var(--color-foreground)] cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 text-(--color) hover:bg-(--color)/5 h-10 px-4 py-2 border-transparent bg-transparent">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevrons-left" class="lucide lucide-chevrons-left size-4 stroke-[1.5] [--color:currentColor] stroke-(--color) fill-(--color)/25"><path d="m11 17-5-5 5-5"></path><path d="m18 17-5-5 5-5"></path></svg>
-                        </a>
-                    </li>
-                    <li class="flex-1 sm:flex-initial">
-                        <a class="[--color:var(--color-foreground)] cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 text-(--color) hover:bg-(--color)/5 h-10 px-4 py-2 border-transparent bg-transparent">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-left" class="lucide lucide-chevron-left size-4 stroke-[1.5] [--color:currentColor] stroke-(--color) fill-(--color)/25"><path d="m15 18-6-6 6-6"></path></svg>
-                        </a>
-                    </li>
-                    <li class="flex-1 sm:flex-initial">
-                        <a class="[--color:var(--color-foreground)] cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 text-(--color) hover:bg-(--color)/5 h-10 px-4 py-2 border-transparent bg-transparent">
-                            ...
-                        </a>
-                    </li>
-                    <li class="flex-1 sm:flex-initial">
-                        <a class="[--color:var(--color-foreground)] cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 text-(--color) hover:bg-(--color)/5 h-10 px-4 py-2 border-transparent bg-transparent">
-                            1
-                        </a>
-                    </li>
-                    <li class="flex-1 sm:flex-initial">
-                        <a class="[--color:var(--color-foreground)] cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 text-(--color) hover:bg-(--color)/5 bg-background h-10 px-4 py-2 box rounded-xl border-inherit">
-                            2
-                        </a>
-                    </li>
-                    <li class="flex-1 sm:flex-initial">
-                        <a class="[--color:var(--color-foreground)] cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 text-(--color) hover:bg-(--color)/5 h-10 px-4 py-2 border-transparent bg-transparent">
-                            3
-                        </a>
-                    </li>
-                    <li class="flex-1 sm:flex-initial">
-                        <a class="[--color:var(--color-foreground)] cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 text-(--color) hover:bg-(--color)/5 h-10 px-4 py-2 border-transparent bg-transparent">
-                            ...
-                        </a>
-                    </li>
-                    <li class="flex-1 sm:flex-initial">
-                        <a class="[--color:var(--color-foreground)] cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 text-(--color) hover:bg-(--color)/5 h-10 px-4 py-2 border-transparent bg-transparent">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-right" class="lucide lucide-chevron-right size-4 stroke-[1.5] [--color:currentColor] stroke-(--color) fill-(--color)/25"><path d="m9 18 6-6-6-6"></path></svg>
-                        </a>
-                    </li>
-                    <li class="flex-1 sm:flex-initial">
-                        <a class="[--color:var(--color-foreground)] cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 text-(--color) hover:bg-(--color)/5 h-10 px-4 py-2 border-transparent bg-transparent">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevrons-right" class="lucide lucide-chevrons-right size-4 stroke-[1.5] [--color:currentColor] stroke-(--color) fill-(--color)/25"><path d="m6 17 5-5-5-5"></path><path d="m13 17 5-5-5-5"></path></svg>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            <select class="bg-(image:--background-image-chevron) bg-[position:calc(100%-theme(spacing.3))_center] bg-[size:theme(spacing.5)] bg-no-repeat relative appearance-none flex h-10 rounded-md border bg-background px-3 py-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/5 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 box mt-3 w-20 sm:mt-0">
-                <option>10</option>
-                <option>25</option>
-                <option>35</option>
-                <option>50</option>
-            </select>
-    </div>
-    <!-- END: Pagination -->
-    @endif
+        <!-- BEGIN: Pagination -->
+        @if($enablePagination)
+            <div class="col-span-12 flex flex-wrap items-center sm:flex-row sm:flex-nowrap">
+                <nav class="w-full sm:mr-auto sm:w-auto">
+                    <ul class="mr-0 flex w-full gap-1 sm:mr-auto sm:w-auto">
+                        <li class="flex-1 sm:flex-initial">
+                            <a
+                                class="[--color:var(--color-foreground)] cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 text-(--color) hover:bg-(--color)/5 h-10 px-4 py-2 border-transparent bg-transparent">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" data-lucide="chevrons-left"
+                                    class="lucide lucide-chevrons-left size-4 stroke-[1.5] [--color:currentColor] stroke-(--color) fill-(--color)/25">
+                                    <path d="m11 17-5-5 5-5"></path>
+                                    <path d="m18 17-5-5 5-5"></path>
+                                </svg>
+                            </a>
+                        </li>
+                        <li class="flex-1 sm:flex-initial">
+                            <a
+                                class="[--color:var(--color-foreground)] cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 text-(--color) hover:bg-(--color)/5 h-10 px-4 py-2 border-transparent bg-transparent">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" data-lucide="chevron-left"
+                                    class="lucide lucide-chevron-left size-4 stroke-[1.5] [--color:currentColor] stroke-(--color) fill-(--color)/25">
+                                    <path d="m15 18-6-6 6-6"></path>
+                                </svg>
+                            </a>
+                        </li>
+                        <li class="flex-1 sm:flex-initial">
+                            <a
+                                class="[--color:var(--color-foreground)] cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 text-(--color) hover:bg-(--color)/5 h-10 px-4 py-2 border-transparent bg-transparent">
+                                ...
+                            </a>
+                        </li>
+                        <li class="flex-1 sm:flex-initial">
+                            <a
+                                class="[--color:var(--color-foreground)] cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 text-(--color) hover:bg-(--color)/5 h-10 px-4 py-2 border-transparent bg-transparent">
+                                1
+                            </a>
+                        </li>
+                        <li class="flex-1 sm:flex-initial">
+                            <a
+                                class="[--color:var(--color-foreground)] cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 text-(--color) hover:bg-(--color)/5 bg-background h-10 px-4 py-2 box rounded-xl border-inherit">
+                                2
+                            </a>
+                        </li>
+                        <li class="flex-1 sm:flex-initial">
+                            <a
+                                class="[--color:var(--color-foreground)] cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 text-(--color) hover:bg-(--color)/5 h-10 px-4 py-2 border-transparent bg-transparent">
+                                3
+                            </a>
+                        </li>
+                        <li class="flex-1 sm:flex-initial">
+                            <a
+                                class="[--color:var(--color-foreground)] cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 text-(--color) hover:bg-(--color)/5 h-10 px-4 py-2 border-transparent bg-transparent">
+                                ...
+                            </a>
+                        </li>
+                        <li class="flex-1 sm:flex-initial">
+                            <a
+                                class="[--color:var(--color-foreground)] cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 text-(--color) hover:bg-(--color)/5 h-10 px-4 py-2 border-transparent bg-transparent">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" data-lucide="chevron-right"
+                                    class="lucide lucide-chevron-right size-4 stroke-[1.5] [--color:currentColor] stroke-(--color) fill-(--color)/25">
+                                    <path d="m9 18 6-6-6-6"></path>
+                                </svg>
+                            </a>
+                        </li>
+                        <li class="flex-1 sm:flex-initial">
+                            <a
+                                class="[--color:var(--color-foreground)] cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 text-(--color) hover:bg-(--color)/5 h-10 px-4 py-2 border-transparent bg-transparent">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" data-lucide="chevrons-right"
+                                    class="lucide lucide-chevrons-right size-4 stroke-[1.5] [--color:currentColor] stroke-(--color) fill-(--color)/25">
+                                    <path d="m6 17 5-5-5-5"></path>
+                                    <path d="m13 17 5-5-5-5"></path>
+                                </svg>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <select
+                    class="bg-(image:--background-image-chevron) bg-[position:calc(100%-theme(spacing.3))_center] bg-[size:theme(spacing.5)] bg-no-repeat relative appearance-none flex h-10 rounded-md border bg-background px-3 py-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/5 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 box mt-3 w-20 sm:mt-0">
+                    <option>10</option>
+                    <option>25</option>
+                    <option>35</option>
+                    <option>50</option>
+                </select>
+            </div>
+            <!-- END: Pagination -->
+        @endif
     </div>
 
     <!-- Warning Modal -->
     @if($showWarningModal)
-        <div class="modal group bg-black/60 transition-[visibility,opacity] w-screen h-screen fixed left-0 top-0 z-[9998] show duration-[0s,0.4s] visible opacity-100">
-            <div class="box relative before:absolute before:inset-0 before:mx-3 before:-mb-3 before:border before:border-foreground/10 before:z-[-1] after:absolute after:inset-0 after:border after:border-foreground/10 after:bg-background after:shadow-[0px_3px_5px_#0000000b] after:z-[-1] after:backdrop-blur-md before:bg-background/60 dark:before:shadow-background before:shadow-foreground/60 z-[9999] mx-auto mt-16 p-6 transition-[margin-top,transform] duration-[0.4s,0.3s] before:rounded-3xl before:shadow-2xl after:rounded-3xl sm:max-w-md">
-                
+        <div
+            class="modal group bg-black/60 transition-[visibility,opacity] w-screen h-screen fixed left-0 top-0 z-[9998] show duration-[0s,0.4s] visible opacity-100">
+            <div
+                class="box relative before:absolute before:inset-0 before:mx-3 before:-mb-3 before:border before:border-foreground/10 before:z-[-1] after:absolute after:inset-0 after:border after:border-foreground/10 after:bg-background after:shadow-[0px_3px_5px_#0000000b] after:z-[-1] after:backdrop-blur-md before:bg-background/60 dark:before:shadow-background before:shadow-foreground/60 z-[9999] mx-auto mt-16 p-6 transition-[margin-top,transform] duration-[0.4s,0.3s] before:rounded-3xl before:shadow-2xl after:rounded-3xl sm:max-w-md">
+
                 <div class="p-5 text-center border-b border-foreground/10">
                     <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100 mb-4">
-                        <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                        <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
                         </svg>
                     </div>
                     <h2 class="text-lg font-medium text-red-800">Voting Limit Exceeded</h2>
@@ -401,11 +506,8 @@
                 </div>
 
                 <div class="px-5 pb-8 text-center border-t border-foreground/10 pt-4">
-                    <button 
-                        wire:click="closeWarningModal" 
-                        type="button" 
-                        class="cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-red-600 border-red-600 text-white hover:bg-red-700 h-10 px-4 py-2 w-24"
-                    >
+                    <button wire:click="closeWarningModal" type="button"
+                        class="cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-red-600 border-red-600 text-white hover:bg-red-700 h-10 px-4 py-2 w-24">
                         OK
                     </button>
                 </div>
@@ -415,41 +517,32 @@
 
     <!-- Vote Confirmation Modal (with Gmail/email verification step) -->
     @if($showVoteConfirmationModal)
-        <x-menu.modal 
-            :showButton="false" 
-            modalId="vote-confirmation-modal" 
-            :title="$showEmailVerificationStep ? 'Verify Your Email' : 'Confirm Your Vote'" 
-            :description="$showEmailVerificationStep ? 'Enter the 6-digit code sent to your email to confirm and submit your vote.' : 'Please review your selections before submitting your vote.'"
-            size="lg"
-            :isOpen="$showVoteConfirmationModal">
-            
+        <x-menu.modal :showButton="false" modalId="vote-confirmation-modal" :title="$showEmailVerificationStep ? 'Verify Your Email' : 'Confirm Your Vote'" :description="$showEmailVerificationStep ? 'Enter the 6-digit code sent to your email to confirm and submit your vote.' : 'Please review your selections before submitting your vote.'"
+            size="lg" :isOpen="$showVoteConfirmationModal">
+
             @if($showEmailVerificationStep)
                 {{-- Gmail/Email verification: OTP step --}}
                 <div class="space-y-4">
                     <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
                         <p class="text-sm text-blue-800">
-                            We sent a 6-digit code to <strong>{{ $currentStudent && $currentStudent->email ? substr($currentStudent->email, 0, 3) . '***' . substr($currentStudent->email, strrpos($currentStudent->email, '@')) : 'your email' }}</strong>. Enter it below.
+                            We sent a 6-digit code to
+                            <strong>{{ $currentStudent && $currentStudent->email ? substr($currentStudent->email, 0, 3) . '***' . substr($currentStudent->email, strrpos($currentStudent->email, '@')) : 'your email' }}</strong>.
+                            Enter it below.
                         </p>
                     </div>
                     <div>
-                        <label for="vote-otp-input" class="block text-sm font-medium text-gray-700 mb-1">Verification code</label>
-                        <input 
-                            type="text" 
-                            id="vote-otp-input"
-                            wire:model="voteOtpCode" 
-                            maxlength="6" 
-                            placeholder="000000"
+                        <label for="vote-otp-input" class="block text-sm font-medium text-gray-700 mb-1">Verification
+                            code</label>
+                        <input type="text" id="vote-otp-input" wire:model="voteOtpCode" maxlength="6" placeholder="000000"
                             class="w-full rounded-md border border-gray-300 px-3 py-2 text-center text-lg tracking-widest font-mono focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            inputmode="numeric"
-                            pattern="[0-9]*"
-                            autocomplete="one-time-code"
-                        >
+                            inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code">
                         @if($voteOtpError)
                             <p class="mt-2 text-sm text-red-600">{{ $voteOtpError }}</p>
                         @endif
                     </div>
                     <div class="flex flex-wrap gap-2">
-                        <button type="button" wire:click="resendVoteOtp" class="text-sm text-blue-600 hover:text-blue-800 underline">
+                        <button type="button" wire:click="resendVoteOtp"
+                            class="text-sm text-blue-600 hover:text-blue-800 underline">
                             Resend code
                         </button>
                     </div>
@@ -464,9 +557,9 @@
                                 @foreach($exclusive['candidates_by_position'] as $position => $positionData)
                                     @php
                                         $selectedInPosition = [];
-                                        foreach($positionData['candidates'] as $candidate) {
+                                        foreach ($positionData['candidates'] as $candidate) {
                                             $candidateId = isset($candidate->id) ? $candidate->id : $candidate->students_id;
-                                            if(in_array($candidateId, $selectedCandidates)) {
+                                            if (in_array($candidateId, $selectedCandidates)) {
                                                 $student = isset($candidate->student) ? $candidate->student : $candidate->students;
                                                 $selectedInPosition[] = $student;
                                             }
@@ -489,11 +582,15 @@
                     <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
                         <div class="flex items-start">
                             <svg class="w-5 h-5 text-yellow-600 mt-0.5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd"
+                                    d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                                    clip-rule="evenodd"></path>
                             </svg>
                             <div>
                                 <h4 class="font-medium text-yellow-800">Important Notice</h4>
-                                <p class="text-sm text-yellow-700 mt-1">Once you submit your vote, you cannot change your selections. You will receive a verification code at your registered email before the vote is submitted.</p>
+                                <p class="text-sm text-yellow-700 mt-1">Once you submit your vote, you cannot change your
+                                    selections. You will receive a verification code at your registered email before the vote is
+                                    submitted.</p>
                             </div>
                         </div>
                     </div>
@@ -501,24 +598,26 @@
             @endif
 
             <x-slot:footer>
-                <button 
-                    data-tw-dismiss="modal" 
-                    type="button" 
-                    wire:click="cancelVote" 
-                    class="cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 text-foreground hover:bg-foreground/5 bg-background border-foreground/20 h-10 px-4 py-2 w-24 mx-auto"
-                >
+                <button data-tw-dismiss="modal" type="button" wire:click="cancelVote"
+                    class="cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 text-foreground hover:bg-foreground/5 bg-background border-foreground/20 h-10 px-4 py-2 w-24 mx-auto">
                     Exit
                 </button>
                 @if($showEmailVerificationStep)
-                    <button type="button" wire:click="cancelEmailVerification" class="ml-2 cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 text-foreground hover:bg-foreground/5 bg-background border-foreground/20 h-10 px-4 py-2 mx-auto">
+                    <button type="button" wire:click="cancelEmailVerification"
+                        class="ml-2 cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 text-foreground hover:bg-foreground/5 bg-background border-foreground/20 h-10 px-4 py-2 mx-auto">
                         Back
                     </button>
-                    <button type="button" wire:click="verifyVoteOtpAndSubmit" class="ml-2 cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-(--color)/20 border-(--color)/60 text-(--color) hover:bg-(--color)/5 [--color:var(--color-primary)] h-10 px-4 py-2 mx-auto">
-                        Verify & Submit
+                    <button type="button" wire:click="verifyVoteOtpAndSubmit" wire:loading.attr="disabled"
+                        wire:target="verifyVoteOtpAndSubmit"
+                        class="ml-2 cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-(--color)/20 border-(--color)/60 text-(--color) hover:bg-(--color)/5 [--color:var(--color-primary)] h-10 px-4 py-2 mx-auto disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span wire:loading.remove wire:target="verifyVoteOtpAndSubmit">Verify & Submit</span>
+                        <span wire:loading wire:target="verifyVoteOtpAndSubmit">Verifying...</span>
                     </button>
                 @else
-                    <button type="button" wire:click="confirmVote" class="ml-3 cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-(--color)/20 border-(--color)/60 text-(--color) hover:bg-(--color)/5 [--color:var(--color-primary)] h-10 px-4 py-2 w-24 mx-auto">
-                        Confirm
+                    <button type="button" wire:click="confirmVote" wire:loading.attr="disabled" wire:target="confirmVote"
+                        class="ml-3 cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-(--color)/20 border-(--color)/60 text-(--color) hover:bg-(--color)/5 [--color:var(--color-primary)] h-10 px-4 py-2 w-24 mx-auto disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span wire:loading.remove wire:target="confirmVote">Confirm</span>
+                        <span wire:loading wire:target="confirmVote">Sending...</span>
                     </button>
                 @endif
             </x-slot:footer>
@@ -527,16 +626,19 @@
 
     <!-- Candidate Image Modal -->
     @if($showImageModal)
-        <x-menu.modal :showButton="false" modalId="candidate-image-modal" title="Candidate Photo" size="lg" :isOpen="$showImageModal">
+        <x-menu.modal :showButton="false" modalId="candidate-image-modal" title="Candidate Photo" size="lg"
+            :isOpen="$showImageModal">
             <div class="text-center">
                 @if($imageModalSrc)
-                    <img src="{{ $imageModalSrc }}" alt="Candidate Photo" class="mx-auto max-h-[70vh] w-auto rounded-lg object-contain">
+                    <img src="{{ $imageModalSrc }}" alt="Candidate Photo"
+                        class="mx-auto max-h-[70vh] w-auto rounded-lg object-contain">
                 @else
                     <div class="text-sm text-gray-500">Image not available.</div>
                 @endif
             </div>
             <x-slot:footer>
-                <button type="button" wire:click="closeImageModal" class="cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 text-foreground hover:bg-foreground/5 bg-background border-foreground/20 h-10 px-4 py-2 w-24 mx-auto">
+                <button type="button" wire:click="closeImageModal"
+                    class="cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 text-foreground hover:bg-foreground/5 bg-background border-foreground/20 h-10 px-4 py-2 w-24 mx-auto">
                     Exit
                 </button>
             </x-slot:footer>
@@ -551,14 +653,13 @@
             </x-slot:header>
 
             <div class="p-5">
-                <p class="mb-4 text-gray-600">Select a party to vote for all their candidates at once. You can still modify individual selections afterwards.</p>
-                
+                <p class="mb-4 text-gray-600">Select a party to vote for all their candidates at once. You can still modify
+                    individual selections afterwards.</p>
+
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                     @foreach($availablePartylists as $partylist)
-                        <div 
-                            wire:click="votePartyTicket({{ $partylist['id'] }})"
-                            class="cursor-pointer border rounded-lg p-4 hover:shadow-md hover:border-purple-300 transition-all"
-                        >
+                        <div wire:click="votePartyTicket({{ $partylist['id'] }})"
+                            class="cursor-pointer border rounded-lg p-4 hover:shadow-md hover:border-purple-300 transition-all">
                             <div class="flex items-center gap-3">
                                 @if(!empty($partylist['image']))
                                     @php
@@ -567,10 +668,12 @@
                                             $partyImageSrc = route('public.file', ['path' => $partylist['image']]);
                                         }
                                     @endphp
-                                    <img src="{{ $partyImageSrc }}" alt="{{ $partylist['name'] }}" class="w-16 h-16 object-cover rounded-lg">
+                                    <img src="{{ $partyImageSrc }}" alt="{{ $partylist['name'] }}"
+                                        class="w-16 h-16 object-cover rounded-lg">
                                 @else
                                     <div class="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-purple-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2" class="text-purple-600">
                                             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
                                             <circle cx="9" cy="7" r="4"></circle>
                                             <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
@@ -584,7 +687,8 @@
                                         <p class="text-sm text-gray-600 mt-1">{{ $partylist['description'] }}</p>
                                     @endif
                                 </div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-purple-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" class="text-purple-600">
                                     <polyline points="9 18 15 12 9 6"></polyline>
                                 </svg>
                             </div>
@@ -594,12 +698,8 @@
             </div>
 
             <x-slot:footer>
-                <button 
-                    data-tw-dismiss="modal" 
-                    type="button" 
-                    wire:click="closePartyVotingModal" 
-                    class="cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 text-foreground hover:bg-foreground/5 bg-background border-foreground/20 h-10 px-4 py-2 w-24 mx-auto"
-                >
+                <button data-tw-dismiss="modal" type="button" wire:click="closePartyVotingModal"
+                    class="cursor-pointer inline-flex border items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 text-foreground hover:bg-foreground/5 bg-background border-foreground/20 h-10 px-4 py-2 w-24 mx-auto">
                     Cancel
                 </button>
             </x-slot:footer>
